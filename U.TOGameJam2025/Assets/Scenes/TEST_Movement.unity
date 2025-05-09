@@ -1232,6 +1232,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7046d5dbf557646b32290b0a3bdccd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <OnUse>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1273630757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1507,10 +1510,10 @@ GameObject:
   - component: {fileID: 1580929248}
   - component: {fileID: 1580929247}
   - component: {fileID: 1580929246}
-  - component: {fileID: 1580929245}
+  - component: {fileID: 1580929251}
   - component: {fileID: 1580929244}
   m_Layer: 7
-  m_Name: HeldItem
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1544,18 +1547,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <KeepWorldPosition>k__BackingField: 0
---- !u!114 &1580929245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1580929242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f7046d5dbf557646b32290b0a3bdccd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1580929246
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1678,6 +1669,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580929242}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1580929251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1580929242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2867787bc316e3c489d1be717e2eb70e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <OnUse>k__BackingField:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1642677522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2014,7 +2020,7 @@ MonoBehaviour:
   interactDistance: 2.217
   pickUpParentTransform: {fileID: 943478621}
   inHandItem: {fileID: 0}
-  throwForce: 0
+  throwForce: 5
   inputActionAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   pickupAudioSource: {fileID: 0}
 --- !u!1 &1865195441
