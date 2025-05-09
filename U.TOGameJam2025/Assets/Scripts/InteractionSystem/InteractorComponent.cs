@@ -14,7 +14,7 @@ public class InteractorComponent : MonoBehaviour
     [Header("Held Item")]
     [SerializeField] private Transform pickUpParentTransform;
     [SerializeField] private GameObject inHandItem;
-
+    [SerializeField] [Range(1.0f, 50.0f)] private float throwForce; 
 
     [Header("Input Actions")]
     [SerializeField] private InputActionAsset inputActionAsset;
@@ -52,7 +52,15 @@ public class InteractorComponent : MonoBehaviour
     #region Interaction Methods
     private void OnUse(InputAction.CallbackContext context)
     {
-        Debug.Log("Use action performed!");                                 // Placeholder for use action
+        if(inHandItem != null)
+        {
+            IUsable usableObject = inHandItem.GetComponent<IUsable>();                  // Get the IUsable component from the inHandItem
+
+            if(usableObject != null)
+            {
+                usableObject.Use(gameObject);                                            // Call the Use method on the usable object
+            }
+        }
     }
 
     private void OnDrop(InputAction.CallbackContext context)
@@ -65,7 +73,7 @@ public class InteractorComponent : MonoBehaviour
             if(inHandItem.TryGetComponent<Rigidbody>(out Rigidbody rb)) 
             {
                 rb.isKinematic = false;                                                                         // Set it to non-kinematic
-                rb.AddForce(playerCameraTransform.forward * 5, ForceMode.Impulse);                              // Add force to the item to make it drop
+                rb.AddForce(playerCameraTransform.forward * throwForce, ForceMode.Impulse);                     // Add force to the item to "Throw" it
             }
 
             inHandItem = null;                                                                                  // Reset the inHandItem to null  
