@@ -107,7 +107,18 @@ public class InteractorComponent : MonoBehaviour
     }
     #endregion
 
-    
+    /// <summary>
+    /// This method is used to drop the item in hand from outside the InteractorComponent. It does not use rigid bodies or anything.
+    /// </summary>
+    public void DropItem(GameObject item)
+    {
+        if(item != null && item == inHandItem)
+        {
+            inHandItem.transform.SetParent(null);                                                               // Remove the parent of the item in hand
+            
+            inHandItem = null;                                                                                  // Reset the inHandItem to null  
+        }
+    }
     private void Update()
     {
         CheckForInteractable();                                                     
