@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,10 +11,17 @@ public class InteractorComponent : MonoBehaviour
     [SerializeField] private GameObject pickupUI;
     [SerializeField] [Range(1.0f, 3.0f)] [Min(1.0f)] private float interactDistance;
 
+    [Header("Held Item")]
+    [SerializeField] private Transform pickUpParentTransform;
+    [SerializeField] private GameObject inHandItem;
+
+
     [Header("Input Actions")]
     [SerializeField] private InputActionAsset inputActionAsset;
     private InputAction interactInput, dropInput, useInput;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource pickupAudioSource;
     private RaycastHit hit;
     private GameObject currentHitObject;
 
@@ -24,7 +32,7 @@ public class InteractorComponent : MonoBehaviour
         dropInput = inputActionAsset.FindAction("Drop");                    
         useInput = inputActionAsset.FindAction("Use");                                                          
 
-        interactInput.performed += OnInteract;                                          
+        interactInput.performed += PickUp;                                          
         dropInput.performed += OnDrop;                                             
         useInput.performed += OnUse;                      
 
@@ -36,7 +44,7 @@ public class InteractorComponent : MonoBehaviour
 
     void OnDestroy()
     {
-        interactInput.performed -= OnInteract;                                 
+        interactInput.performed -= PickUp;                                 
         dropInput.performed -= OnDrop;                                         
         useInput.performed -= OnUse;                                             
     }
@@ -52,11 +60,20 @@ public class InteractorComponent : MonoBehaviour
         Debug.Log("Drop action performed!");                                 // Placeholder for drop action
     }
 
-    private void OnInteract(InputAction.CallbackContext context)
+    private void PickUp(InputAction.CallbackContext context)
     {
-        if(hit.collider != null)
+        if(hit.collider != null && inHandItem == null)
         {
-            Debug.Log(hit.collider.name);
+            IInteractable interactableObject = hit.collider.GetComponent<IInteractable>();                      // Get the IInteractable component from the hit object
+
+            if(interactableObject != null)
+            {
+                if(pickupAudioSource != null)
+                    pickupAudioSource.Play();                                                                   // Play the pickup audio
+                
+                inHandItem = interactableObject.PickUp();                                                       // Call the PickUp method on the interactable object
+                inHandItem.transform.SetParent(pickUpParentTransform, interactableObject.KeepWorldPosition);    // Set the parent of the picked up item to the pickUpParentTransform
+            }
         }
     }
     #endregion
@@ -71,7 +88,7 @@ public class InteractorComponent : MonoBehaviour
     {
         if(Physics.Raycast(playerCameraTransform.position, playerCameraTransform.forward, out hit, interactDistance, interactableLayerMask))
         {
-            GameObject hitObject = hit.collider.gameObject;                         // Get the object that was hit by the raycast
+            GameObject hitObject = hit.collider.gameObject;                             // Get the object that was hit by the raycast
             
             if(hitObject == currentHitObject) return;                                   // If the hit object is the same as the current one, return early
 
@@ -80,6 +97,8 @@ public class InteractorComponent : MonoBehaviour
                 currentHitObject.GetComponent<Highlight>()?.ToggleHighlight(false);     // Disable highlight on the previous object
                 pickupUI.SetActive(false);                                              // Disable pickup UI if the object is not interactable     
             }
+
+            if(inHandItem != null) return;                                              // If an item is already in hand, skip the raycast check
 
             currentHitObject = hitObject;                                               // Update the current hit object
 
