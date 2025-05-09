@@ -85,7 +85,7 @@ GameObject:
   - component: {fileID: 6807393192782207704}
   - component: {fileID: 8263248524411455955}
   m_Layer: 5
-  m_Name: Drop_Loot_Canvas
+  m_Name: Bag_Loot_Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

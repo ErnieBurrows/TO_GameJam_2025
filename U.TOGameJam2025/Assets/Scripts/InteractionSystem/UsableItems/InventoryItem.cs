@@ -15,6 +15,9 @@ public class InventoryItem : MonoBehaviour, IUsable
             component.DropItem(gameObject);                                 // Call the DropItem method on all InteractorComponents in the scene
         }
         OnUse?.Invoke();
+
+        LootbagSystem.Instance.BagItem(this);
+
         Debug.Log("Using item: " + gameObject.name);
     }
 }
