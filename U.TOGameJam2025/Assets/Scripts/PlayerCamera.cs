@@ -7,11 +7,13 @@ public class PlayerCamera : MonoBehaviour
     public Vector2 rotation;
     public Transform orientation;
 
+    private PlayerInput playerInput;
     private InputAction lookAction;
 
     void Start()
     {
-        lookAction = InputSystem.actions.FindAction("Look");
+        playerInput = GetComponentInParent<PlayerInput>();
+        lookAction = playerInput.actions.FindAction("Look");
         lookAction.Enable();
 
         Cursor.lockState = CursorLockMode.Locked;

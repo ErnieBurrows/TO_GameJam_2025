@@ -46,10 +46,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveInput;
     
     #region Input Actions
+    [Header("Input")]
+    private PlayerInput playerInput;
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction sprintAction;   
     private InputAction crouchAction; 
+
+ 
     #endregion
 
     #endregion
@@ -67,10 +71,11 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; 
 
-        moveAction =InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-        sprintAction = InputSystem.actions.FindAction("Sprint");
-        crouchAction = InputSystem.actions.FindAction("Crouch");
+        playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions.FindAction("Move");
+        jumpAction = playerInput.actions.FindAction("Jump");
+        sprintAction = playerInput.actions.FindAction("Sprint");
+        crouchAction = playerInput.actions.FindAction("Crouch");
 
         jumpAction.performed += ctx => Jump(); 
         crouchAction.performed += ctx => Crouch();
@@ -78,6 +83,12 @@ public class PlayerMovement : MonoBehaviour
 
         originalYScale = transform.localScale.y; 
         isReadyToJump = true;
+    }
+    private void OnDisable()
+    {
+        jumpAction.performed -= ctx => Jump(); 
+        crouchAction.performed -= ctx => Crouch();
+        crouchAction.canceled -= ctx => StopCrouch();  
     }
     void Update()
     {

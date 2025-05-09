@@ -17,7 +17,7 @@ public class InteractorComponent : MonoBehaviour
     [SerializeField] [Range(1.0f, 50.0f)] private float throwForce; 
 
     [Header("Input Actions")]
-    [SerializeField] private InputActionAsset inputActionAsset;
+    private PlayerInput playerInput;
     private InputAction interactInput, dropInput, useInput;
 
     [Header("Audio")]
@@ -28,9 +28,11 @@ public class InteractorComponent : MonoBehaviour
     private void Start()
     {
         #region Input Action Assets
-        interactInput = inputActionAsset.FindAction("Interact");         
-        dropInput = inputActionAsset.FindAction("Drop");                    
-        useInput = inputActionAsset.FindAction("Use");                                                          
+        playerInput = GetComponent<PlayerInput>();                                 
+
+        interactInput = playerInput.actions.FindAction("Interact");         
+        dropInput = playerInput.actions.FindAction("Drop");                    
+        useInput = playerInput.actions.FindAction("Use");                                                          
 
         interactInput.performed += PickUp;                                          
         dropInput.performed += OnDrop;                                             
