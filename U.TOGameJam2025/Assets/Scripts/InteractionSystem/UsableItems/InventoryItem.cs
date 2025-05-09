@@ -7,6 +7,7 @@ public class InventoryItem : MonoBehaviour, IUsable
 
     public void Use(GameObject actor)
     {
+        OnUse?.Invoke();
         Debug.Log("Using item: " + gameObject.name);
     }
 }
