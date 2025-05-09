@@ -1124,7 +1124,7 @@ MonoBehaviour:
   - {fileID: 8521751316783900552, guid: 00a27448b15a0704680ae716182f0671, type: 3}
   largeLootPrefabs:
   - {fileID: 8521751316783900552, guid: db49c29e7b6e0374e97620ce70b6a4c8, type: 3}
-  totalLootSpawnPrice: 100000
+  totalLootSpawnPrice: 8700
   smallToLargeLootBias: 100
 --- !u!4 &1572105509
 Transform:
