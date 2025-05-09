@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8327053250454562299
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939780806261322536}
+  - component: {fileID: 2685303923725750302}
+  m_Layer: 0
+  m_Name: UIHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1939780806261322536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8327053250454562299}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.528217, y: -14.392292, z: 3.019152}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2685303923725750302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8327053250454562299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4865c96c09a89d144bebc96b47358301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _virtualMouseCanvasPrefab: {fileID: 8206050281529767771, guid: 64f94c4e26a5ec640912f51a1b39baa3, type: 3}
+  _lootbagPrefab: {fileID: 218294684474868079, guid: 833f432a914252f4a8f78c51d8892d12, type: 3}
+  _mainHudCanvasPrefab: {fileID: 412739117516409475, guid: 36cd079cb27ab1943b8a06dc7af07478, type: 3}
+  _dropLootCanvasPrefab: {fileID: 2868404060493677733, guid: 322c4288966424144924f3a4c1b9ff73, type: 3}
