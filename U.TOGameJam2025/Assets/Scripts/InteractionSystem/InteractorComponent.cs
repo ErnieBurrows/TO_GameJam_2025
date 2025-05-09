@@ -57,7 +57,19 @@ public class InteractorComponent : MonoBehaviour
 
     private void OnDrop(InputAction.CallbackContext context)
     {
-        Debug.Log("Drop action performed!");                                 // Placeholder for drop action
+        if(inHandItem != null)
+        {
+            inHandItem.transform.SetParent(null);                                                               // Remove the parent of the item in hand
+            inHandItem.transform.position = playerCameraTransform.position + playerCameraTransform.forward * 2; // Drop the item in front of the player
+
+            if(inHandItem.TryGetComponent<Rigidbody>(out Rigidbody rb)) 
+            {
+                rb.isKinematic = false;                                                                         // Set it to non-kinematic
+                rb.AddForce(playerCameraTransform.forward * 5, ForceMode.Impulse);                              // Add force to the item to make it drop
+            }
+
+            inHandItem = null;                                                                                  // Reset the inHandItem to null  
+        }
     }
 
     private void PickUp(InputAction.CallbackContext context)
@@ -73,6 +85,10 @@ public class InteractorComponent : MonoBehaviour
                 
                 inHandItem = interactableObject.PickUp();                                                       // Call the PickUp method on the interactable object
                 inHandItem.transform.SetParent(pickUpParentTransform, interactableObject.KeepWorldPosition);    // Set the parent of the picked up item to the pickUpParentTransform
+
+                if(!interactableObject.KeepWorldPosition)
+                    inHandItem.transform.localPosition = Vector3.zero;                                           // Reset the local position of the picked up item
+
             }
         }
     }
