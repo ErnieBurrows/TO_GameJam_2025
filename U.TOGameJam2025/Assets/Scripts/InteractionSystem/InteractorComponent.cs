@@ -89,7 +89,10 @@ public class InteractorComponent : MonoBehaviour
             if(interactableObject != null)
             {
                 if(pickupAudioSource != null)
+                {
                     pickupAudioSource.Play();                                                                   // Play the pickup audio
+                    Debug.Log("Playing pickup sound");
+                }
                 
                 inHandItem = interactableObject.PickUp();                                                       // Call the PickUp method on the interactable object
                 inHandItem.transform.SetParent(pickUpParentTransform, interactableObject.KeepWorldPosition);    // Set the parent of the picked up item to the pickUpParentTransform
