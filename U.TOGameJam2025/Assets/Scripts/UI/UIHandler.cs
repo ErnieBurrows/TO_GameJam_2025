@@ -12,11 +12,13 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject _lootbagPrefab;
     [SerializeField] GameObject _mainHudCanvasPrefab;
     [SerializeField] GameObject _dropLootCanvasPrefab;
+    [SerializeField] GameObject _bagLootCanvasPrefab;
 
     private GameObject _virtualMouseCanvas;
     private GameObject _lootbag;
     private GameObject _mainHudCanvas;
     private GameObject _dropLootCanvas;
+    private GameObject _bagLootCanvas;
 
     private RectTransform _virtualCursor;
     // --------------------------------------------------
@@ -55,6 +57,10 @@ public class UIHandler : MonoBehaviour
         // Drop Loot
         _dropLootCanvas = Instantiate(_dropLootCanvasPrefab,transform);
         _dropLootCanvas.SetActive(false);
+
+        // Bag Loot
+        _bagLootCanvas = Instantiate(_bagLootCanvasPrefab,transform);
+        _bagLootCanvas.SetActive(false);
     }
     // --------------------------------------------------
     public void GameStart()
@@ -69,6 +75,7 @@ public class UIHandler : MonoBehaviour
         Debug.Log(_mainHudCanvas == null ? "mainhud null" : "mainhud not null");
         _mainHudCanvas.SetActive(false);
         _dropLootCanvas.SetActive(false);
+        _bagLootCanvas.SetActive(false);
 
         switch (state)
         {
@@ -77,6 +84,8 @@ public class UIHandler : MonoBehaviour
                 _mainHudCanvas.SetActive(true);
                 break;
             case UIStates.BAG_THE_LOOT:
+                VirtualMouse(true);
+                _bagLootCanvas.SetActive(true);
                 break;
             case UIStates.DROP_THE_LOOT:
                 VirtualMouse(true);
