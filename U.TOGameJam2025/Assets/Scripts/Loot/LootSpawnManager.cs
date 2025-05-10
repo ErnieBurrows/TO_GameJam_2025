@@ -85,7 +85,6 @@ public class LootSpawnManager : MonoBehaviour
             Instantiate(candidatePrefab, spawnPoint.position, Quaternion.identity, lootParentTransform);
 
             currentLootSpawnPrice += lootItem.Value;
-            Debug.Log($"Spawned {lootItem.ItemName} worth {lootItem.Value} at {spawnPoint.position}");
         }
     }
 

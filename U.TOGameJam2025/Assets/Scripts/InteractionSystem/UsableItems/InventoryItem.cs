@@ -21,7 +21,10 @@ public class InventoryItem : MonoBehaviour, IUsable
 
         LootbagSystem.Instance.BagItem(this);
 
+        PlayerInventory.Instance.currentMoney += actor.GetComponent<LootItem>().Value; // Assuming the item gives 1 money when used
+
         Debug.Log("Using item: " + gameObject.name);
+        Debug.Log("Current money: " + PlayerInventory.Instance.currentMoney);
     }
 
     public void Dropped()

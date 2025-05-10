@@ -21,4 +21,6 @@ public class PlayerInventory : MonoBehaviour
         }
     }
     #endregion
+
+    public float currentMoney = 0;
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
@@ -121,16 +122,25 @@ public class UIHandler : MonoBehaviour
         }
     }
     // --------------------------------------------------
+
+    private void ToggleItemLabel(GameObject gameObject, bool isActive)
+    {
+        Debug.Log($"<UIHandler> Toggling item label for {gameObject.name} to {isActive}");
+    }
+    // --------------------------------------------------
     private void OnEnable()
     {
         GameStateManager.OnGameStateManagerInitialized += Setup;
         GameStateManager.OnGameStateChanged += GameStateChanged;
+        InteractorComponent.OnInteractableObjectHovered += ToggleItemLabel;
     }
+
     // -----------------.-----------------------
     private void OnDisable()
     {
         GameStateManager.OnGameStateManagerInitialized -= Setup;
         GameStateManager.OnGameStateChanged -= GameStateChanged;
+        InteractorComponent.OnInteractableObjectHovered -= ToggleItemLabel;
     }
     // --------------------------------------------------
 }

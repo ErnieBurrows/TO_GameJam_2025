@@ -8,12 +8,11 @@ public class InteractorComponent : MonoBehaviour
 {
     [SerializeField] private LayerMask interactableLayerMask;
     [SerializeField] private Transform playerCameraTransform;
-    [SerializeField] private GameObject pickupUI;
     [SerializeField] [Range(1.0f, 3.0f)] [Min(1.0f)] private float interactDistance;
 
     [Header("Held Item")]
     [SerializeField] private Transform pickUpParentTransform;
-    [SerializeField] private GameObject inHandItem;
+    [SerializeField] private GameObject inHandObject;
     [SerializeField] [Range(1.0f, 50.0f)] private float throwForce; 
 
     [Header("Input Actions")]
@@ -24,6 +23,8 @@ public class InteractorComponent : MonoBehaviour
     [SerializeField] private AudioSource pickupAudioSource;
     private RaycastHit hit;
     private GameObject currentHitObject;
+
+    public static event Action<GameObject, bool> OnInteractableObjectHovered;
 
     private void Start()
     {
@@ -54,37 +55,37 @@ public class InteractorComponent : MonoBehaviour
     #region Interaction Methods
     private void OnUse(InputAction.CallbackContext context)
     {
-        if(inHandItem != null)
+        if(inHandObject != null)
         {
-            IUsable usableObject = inHandItem.GetComponent<IUsable>();                  // Get the IUsable component from the inHandItem
+            IUsable usableObject = inHandObject.GetComponent<IUsable>();                  // Get the IUsable component from the inHandItem
 
             if(usableObject != null)
             {
-                usableObject.Use(gameObject);                                            // Call the Use method on the usable object
+                usableObject.Use(inHandObject);                                            // Call the Use method on the usable object
             }
         }
     }
 
     private void OnDrop(InputAction.CallbackContext context)
     {
-        if(inHandItem != null)
+        if(inHandObject != null)
         {
-            inHandItem.transform.SetParent(null);                                                               // Remove the parent of the item in hand
-            inHandItem.transform.position = playerCameraTransform.position + playerCameraTransform.forward * 2; // Drop the item in front of the player
+            inHandObject.transform.SetParent(null);                                                               // Remove the parent of the item in hand
+            inHandObject.transform.position = playerCameraTransform.position + playerCameraTransform.forward * 2; // Drop the item in front of the player
 
-            if(inHandItem.TryGetComponent<Rigidbody>(out Rigidbody rb)) 
+            if(inHandObject.TryGetComponent<Rigidbody>(out Rigidbody rb)) 
             {
                 rb.isKinematic = false;                                                                         // Set it to non-kinematic
                 rb.AddForce(playerCameraTransform.forward * throwForce, ForceMode.Impulse);                     // Add force to the item to "Throw" it
             }
 
-            inHandItem = null;                                                                                  // Reset the inHandItem to null  
+            inHandObject = null;                                                                                  // Reset the inHandItem to null  
         }
     }
 
     private void PickUp(InputAction.CallbackContext context)
     {
-        if(hit.collider != null && inHandItem == null)
+        if(hit.collider != null && inHandObject == null)
         {
             IInteractable interactableObject = hit.collider.GetComponent<IInteractable>();                      // Get the IInteractable component from the hit object
 
@@ -96,11 +97,11 @@ public class InteractorComponent : MonoBehaviour
                     Debug.Log("Playing pickup sound");
                 }
                 
-                inHandItem = interactableObject.PickUp();                                                       // Call the PickUp method on the interactable object
-                inHandItem.transform.SetParent(pickUpParentTransform, interactableObject.KeepWorldPosition);    // Set the parent of the picked up item to the pickUpParentTransform
+                inHandObject = interactableObject.PickUp();                                                       // Call the PickUp method on the interactable object
+                inHandObject.transform.SetParent(pickUpParentTransform, interactableObject.KeepWorldPosition);    // Set the parent of the picked up item to the pickUpParentTransform
 
                 if(!interactableObject.KeepWorldPosition)
-                    inHandItem.transform.localPosition = Vector3.zero;                                           // Reset the local position of the picked up item
+                    inHandObject.transform.localPosition = Vector3.zero;                                           // Reset the local position of the picked up item
 
             }
         }
@@ -112,11 +113,11 @@ public class InteractorComponent : MonoBehaviour
     /// </summary>
     public void DropItem(GameObject item)
     {
-        if(item != null && item == inHandItem)
+        if(item != null && item == inHandObject)
         {
-            inHandItem.transform.SetParent(null);                                                               // Remove the parent of the item in hand
+            inHandObject.transform.SetParent(null);                                                               // Remove the parent of the item in hand
             
-            inHandItem = null;                                                                                  // Reset the inHandItem to null  
+            inHandObject = null;                                                                                  // Reset the inHandItem to null  
         }
     }
     private void Update()
@@ -135,10 +136,11 @@ public class InteractorComponent : MonoBehaviour
             if(currentHitObject != null)
             {
                 currentHitObject.GetComponent<Highlight>()?.ToggleHighlight(false);     // Disable highlight on the previous object
-                pickupUI.SetActive(false);                                              // Disable pickup UI if the object is not interactable     
+
+                OnInteractableObjectHovered?.Invoke(currentHitObject, false);           // Invoke the event to notify that the object is no longer hovered 
             }
 
-            if(inHandItem != null) return;                                              // If an item is already in hand, skip the raycast check
+            if(inHandObject != null) return;                                              // If an item is already in hand, skip the raycast check
 
             currentHitObject = hitObject;                                               // Update the current hit object
 
@@ -149,14 +151,14 @@ public class InteractorComponent : MonoBehaviour
 
             highlight.ToggleHighlight(true);
     
-            pickupUI?.SetActive(true);                                                   // Enable pickup UI if the object is interactable
+            OnInteractableObjectHovered?.Invoke(currentHitObject, true);                // Invoke the event to notify that the object is hovered
         }
         else
         {
             if(currentHitObject != null)
             {
                 currentHitObject.GetComponent<Highlight>()?.ToggleHighlight(false);  
-                pickupUI.SetActive(false);    
+                OnInteractableObjectHovered?.Invoke(currentHitObject, false);           // Invoke the event to notify that the object is no longer hovered  
                 currentHitObject = null;                                                
             }
         }

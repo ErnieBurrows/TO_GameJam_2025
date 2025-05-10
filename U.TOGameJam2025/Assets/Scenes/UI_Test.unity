@@ -6002,7 +6002,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1728682851598665027, guid: b9f46a3ecc4a15440ac27673f9d2794b, type: 3}
       propertyPath: m_Name
-      value: Floor (2)
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 1728682851598665027, guid: b9f46a3ecc4a15440ac27673f9d2794b, type: 3}
       propertyPath: m_Layer
@@ -8044,7 +8044,7 @@ MonoBehaviour:
   pickupUI: {fileID: 2011665286}
   interactDistance: 2.217
   pickUpParentTransform: {fileID: 1974407473}
-  inHandItem: {fileID: 0}
+  inHandObject: {fileID: 0}
   throwForce: 5
   pickupAudioSource: {fileID: 1187910047}
 --- !u!54 &1187910049
@@ -10420,7 +10420,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1728682851598665027, guid: b9f46a3ecc4a15440ac27673f9d2794b, type: 3}
       propertyPath: m_Name
-      value: Floor (1)
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 1728682851598665027, guid: b9f46a3ecc4a15440ac27673f9d2794b, type: 3}
       propertyPath: m_Layer
