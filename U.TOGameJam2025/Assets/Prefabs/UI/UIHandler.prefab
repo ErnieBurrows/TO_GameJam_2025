@@ -47,5 +47,4 @@ MonoBehaviour:
   _virtualMouseCanvasPrefab: {fileID: 8206050281529767771, guid: 64f94c4e26a5ec640912f51a1b39baa3, type: 3}
   _lootbagPrefab: {fileID: 218294684474868079, guid: 833f432a914252f4a8f78c51d8892d12, type: 3}
   _mainHudCanvasPrefab: {fileID: 412739117516409475, guid: 36cd079cb27ab1943b8a06dc7af07478, type: 3}
-  _dropLootCanvasPrefab: {fileID: 2868404060493677733, guid: 322c4288966424144924f3a4c1b9ff73, type: 3}
-  _bagLootCanvasPrefab: {fileID: 2868404060493677733, guid: 52ebfa15363362e40905984c95c86bc5, type: 3}
+  _lootbagCanvasPrefab: {fileID: 2868404060493677733, guid: 322c4288966424144924f3a4c1b9ff73, type: 3}

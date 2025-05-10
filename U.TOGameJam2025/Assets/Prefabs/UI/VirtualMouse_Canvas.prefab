@@ -170,7 +170,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 3001919216989983466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_MiddleButtonAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Middle Button
       m_Type: 0
@@ -180,9 +180,9 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -2185481485913320682, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_RightButtonAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Right Button
       m_Type: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -4090225696740746782, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_ForwardButtonAction:
     m_UseReference: 0
     m_Action:
@@ -218,7 +218,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   m_ScrollWheelAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Scroll Wheel
       m_Type: 0
@@ -228,7 +228,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: 6240969308177333660, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &8206050281529767771
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,7 +277,7 @@ Canvas:
   m_GameObject: {fileID: 8206050281529767771}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -303,12 +303,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

@@ -9,6 +9,7 @@ public class ObjectClickTest : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Debug.Log("Click");
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 _lootbagTexture.rectTransform,
                 eventData.position,

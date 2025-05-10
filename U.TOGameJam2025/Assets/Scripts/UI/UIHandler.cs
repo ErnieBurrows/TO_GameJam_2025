@@ -17,8 +17,11 @@ public class UIHandler : MonoBehaviour
     private GameObject _lootbag;
     private GameObject _mainHudCanvas;
     private GameObject _lootbagCanvas;
+    private RawImage _lootbagTexture;
 
     private RectTransform _virtualCursor;
+
+    public RawImage LootbagTexture => _lootbagTexture;
     // --------------------------------------------------
     // [[VALUES]]
     private Vector2 _defaultVirtualMousePos;
@@ -56,6 +59,7 @@ public class UIHandler : MonoBehaviour
 
         // Lootbag View
         _lootbagCanvas = Instantiate(_lootbagCanvasPrefab,transform);
+        _lootbagTexture = _lootbagCanvas.transform.Find("LootbagTexture").GetComponent<RawImage>();
         _lootbagCanvas.SetActive(false);
 
         GameStart();
@@ -83,8 +87,6 @@ public class UIHandler : MonoBehaviour
                 VirtualMouse(true);
                 _lootbagCanvas.SetActive(true);
                 break;
-            case UIStates.SELL_THE_LOOT:
-                break;
         }
     }
     // --------------------------------------------------
@@ -106,8 +108,11 @@ public class UIHandler : MonoBehaviour
     {
         switch (gameState)
         {
-            case GameStateManager.GameState:
+            case GameStateManager.GameState.LOOTBAG:
                 SwitchState(UIStates.LOOTBAG);
+                break;
+            case GameStateManager.GameState.INGAME:
+                SwitchState(UIStates.MAIN_HUD);
                 break;
         }
     }
