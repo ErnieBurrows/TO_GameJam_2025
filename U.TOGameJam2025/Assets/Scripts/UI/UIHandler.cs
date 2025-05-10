@@ -178,7 +178,7 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized += Setup;
         GameStateManager.OnGameStateChanged += GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered += ToggleItemLabel;
-        InventoryItem.OnMoneyChanged += OnMoneyChanged;
+        InventoryItem.OnInventoryChanged += OnMoneyChanged;
     }
 
     // -----------------.-----------------------
@@ -187,7 +187,7 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized -= Setup;
         GameStateManager.OnGameStateChanged -= GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered -= ToggleItemLabel;
-        InventoryItem.OnMoneyChanged -= OnMoneyChanged;
+        InventoryItem.OnInventoryChanged -= OnMoneyChanged;
     }
     // --------------------------------------------------
 }

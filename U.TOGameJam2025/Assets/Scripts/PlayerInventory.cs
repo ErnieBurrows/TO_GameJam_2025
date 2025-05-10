@@ -23,4 +23,6 @@ public class PlayerInventory : MonoBehaviour
     #endregion
 
     public float currentMoney = 0;
+    public float currentWeight = 0;
+    public float maxWeight = 100;
 }

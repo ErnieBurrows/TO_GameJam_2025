@@ -9,7 +9,7 @@ using System;
 public class InventoryItem : MonoBehaviour, IUsable
 {
     [field: SerializeField] public UnityEvent OnUse {get; private set;}
-    public static event Action OnMoneyChanged;                        // Event to notify when money changes true is added, false is removed
+    public static event Action OnInventoryChanged;                        // Event to notify when money changes true is added, false is removed
 
     private ItemState _itemState = ItemState.DROPPED;
 
@@ -28,19 +28,21 @@ public class InventoryItem : MonoBehaviour, IUsable
     public void Dropped()
     {
         PlayerInventory.Instance.currentMoney -= GetComponent<LootItem>().Value; 
+        PlayerInventory.Instance.currentWeight -= GetComponent<LootItem>().Weight;
 
         _itemState = ItemState.DROPPED;
 
-        OnMoneyChanged?.Invoke(); 
+        OnInventoryChanged?.Invoke(); 
     }
 
     public void Collected()
     {
         PlayerInventory.Instance.currentMoney += GetComponent<LootItem>().Value; 
+        PlayerInventory.Instance.currentWeight += GetComponent<LootItem>().Weight;
 
         _itemState = ItemState.IN_BAG;
 
-        OnMoneyChanged?.Invoke(); 
+        OnInventoryChanged?.Invoke(); 
     }
 
     private enum ItemState
