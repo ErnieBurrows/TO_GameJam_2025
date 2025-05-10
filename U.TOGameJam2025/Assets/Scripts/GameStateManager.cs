@@ -34,12 +34,16 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] private PlayerInput playerInput;
     private InputAction pauseAction;
     private InputAction unPauseAction;
+    private InputAction lootBagOpenAction;
+    private InputAction lootBagCloseAction;
     private GameState currentGameState;
 
     void Awake()
     {
         pauseAction = playerInput.actions["Pause"];
         unPauseAction = playerInput.actions["UnPause"];
+        lootBagOpenAction = playerInput.actions["LootBagOpen"];
+        lootBagCloseAction = playerInput.actions["LootBagClose"];
     }
 
     void Start()
@@ -54,24 +58,42 @@ public class GameStateManager : MonoBehaviour
     {
         pauseAction.performed += ctx => TogglePause(true);
         unPauseAction.performed += ctx => TogglePause(false);
+        lootBagOpenAction.performed += ctx => ToggleLootBag(true);
+        lootBagCloseAction.performed += ctx => ToggleLootBag(false);
+        
 
         pauseAction.Enable();
         unPauseAction.Enable();
+        lootBagOpenAction.Enable();
+        lootBagCloseAction.Enable();
     }
-   
+
+    
+
     void OnDisable()
     {
         pauseAction.performed -= ctx => TogglePause(true);
         unPauseAction.performed -= ctx => TogglePause(false);
+        lootBagOpenAction.performed -= ctx => ToggleLootBag(true);
+        lootBagCloseAction.performed -= ctx => ToggleLootBag(false);
 
         pauseAction.Disable();
         unPauseAction.Disable();
+        lootBagOpenAction.Disable();
+        lootBagCloseAction.Disable();
     }
 
     private void TogglePause(bool isPausing)
     {
         if(isPausing)
             HandleGameState(GameState.PAUSED);
+        else
+            HandleGameState(GameState.INGAME);
+    }
+    private void ToggleLootBag(bool isOpening)
+    {
+        if(isOpening)
+            HandleGameState(GameState.LOOTBAG);
         else
             HandleGameState(GameState.INGAME);
     }

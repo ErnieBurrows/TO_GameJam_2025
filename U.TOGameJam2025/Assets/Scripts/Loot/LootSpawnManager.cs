@@ -15,6 +15,7 @@ public class LootSpawnManager : MonoBehaviour
     [Header("Loot Spawn Settings")]
     [SerializeField] private float totalLootSpawnPrice;
     [SerializeField] [Range(0, 100)] private float smallToLargeLootBias;
+    [SerializeField] private Transform lootParentTransform;
     private float currentLootSpawnPrice;    
     private List<Transform> smallLootSpawnPoints = new List<Transform>();
     private List<Transform> mediumLootSpawnPoints = new List<Transform>();  
@@ -80,7 +81,7 @@ public class LootSpawnManager : MonoBehaviour
             Transform spawnPoint = availableSpawnPoints[spawnIndex];
             availableSpawnPoints.RemoveAt(spawnIndex);
 
-            GameObject spawnedLoot = Instantiate(candidatePrefab, spawnPoint.position, Quaternion.identity);
+            Instantiate(candidatePrefab, spawnPoint.position, Quaternion.identity, lootParentTransform);
 
             currentLootSpawnPrice += lootItem.Value;
             Debug.Log($"Spawned {lootItem.ItemName} worth {lootItem.Value} at {spawnPoint.position}");
