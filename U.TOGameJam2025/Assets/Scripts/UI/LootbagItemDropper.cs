@@ -1,12 +1,21 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class ObjectClickTest : MonoBehaviour, IPointerClickHandler
+public class LootbagItemDropper : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] Camera _lootbagCamera;
-    [SerializeField] RawImage _lootbagTexture;
+    // --------------------------------------------------
+    private Camera _lootbagCamera;
+    private RawImage _lootbagTexture;
+    // --------------------------------------------------
+    private void Start()
+    {
+        _lootbagCamera = LootbagSystem.Instance.LootbagCamera;
+        _lootbagTexture = GetComponent<RawImage>();
 
+        Debug.Log(_lootbagCamera.name + "/" + _lootbagTexture.name);
+    }
+    // --------------------------------------------------
     public void OnPointerClick(PointerEventData eventData)
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -23,6 +32,11 @@ public class ObjectClickTest : MonoBehaviour, IPointerClickHandler
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
+            InventoryItem item = hit.collider.gameObject.GetComponent<InventoryItem>();
+            if (item)
+            {
+                LootbagSystem.Instance.DropItem(item);
+            }
             Debug.Log(hit.collider.gameObject.name + " was clicked.");
         }
     }

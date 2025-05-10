@@ -37,6 +37,8 @@ public class LootbagSystem : MonoBehaviour
         Rigidbody rb = item.GetComponent<Rigidbody>();
         rb.isKinematic = false;
         rb.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotationX;
+
+        item.transform.SetParent(transform);
     }
     // --------------------------------------------------
     public void DropItem(InventoryItem item)
@@ -46,8 +48,10 @@ public class LootbagSystem : MonoBehaviour
 
         // Put item back into the game world.
         item.gameObject.layer = 7; // Interactable Layer
-        item.transform.position = GameObject.Find("Player").transform.forward + (Vector3.forward * 1.5f);
+        item.transform.position = GameObject.Find("Player").transform.Find("CameraHolder/PlayerCamera/PickUpSlot").position;
         Rigidbody rb = item.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.None;
+
+        item.transform.SetParent(GameObject.Find("LootParent").transform);
     }
 }

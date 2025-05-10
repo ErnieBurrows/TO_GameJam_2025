@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3185818821230466898}
   - component: {fileID: 3283112572096640791}
   - component: {fileID: 5130406546301049505}
+  - component: {fileID: 672477446562827765}
   m_Layer: 5
   m_Name: LootbagTexture
   m_TagString: Untagged
@@ -72,6 +73,18 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &672477446562827765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572954116476216391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2545d4ccbde9de541a230800a9f0360f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1235656742580958039
 GameObject:
   m_ObjectHideFlags: 0
