@@ -4,10 +4,12 @@ using UnityEngine.Events;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 [RequireComponent(typeof(PlaySoundOnUse))]
 public class InventoryItem : MonoBehaviour, IUsable
 {
     [field: SerializeField] public UnityEvent OnUse {get; private set;}
+    public static event Action OnMoneyChanged;                        // Event to notify when money changes true is added, false is removed
 
     private ItemState _itemState = ItemState.DROPPED;
 
@@ -23,8 +25,7 @@ public class InventoryItem : MonoBehaviour, IUsable
 
         PlayerInventory.Instance.currentMoney += actor.GetComponent<LootItem>().Value; // Assuming the item gives 1 money when used
 
-        Debug.Log("Using item: " + gameObject.name);
-        Debug.Log("Current money: " + PlayerInventory.Instance.currentMoney);
+        OnMoneyChanged?.Invoke(); 
     }
 
     public void Dropped()

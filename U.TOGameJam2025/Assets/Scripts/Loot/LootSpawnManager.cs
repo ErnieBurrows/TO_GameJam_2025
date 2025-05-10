@@ -32,7 +32,6 @@ public class LootSpawnManager : MonoBehaviour
 
     private void SpawnLootFromBias()
     {
-        Debug.Log("<LootSpawnManager> Spawning loot based on bias.");
         currentLootSpawnPrice = 0;
 
         List<(List<GameObject> prefabs, List<Transform> spawnPoints)> lootCategories = new()

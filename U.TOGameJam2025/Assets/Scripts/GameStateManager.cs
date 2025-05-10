@@ -53,7 +53,6 @@ public class GameStateManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Player");
 
         OnGameStateManagerInitialized?.Invoke();
-        Debug.Log("GameStateManager Initialized");
     }
 
     void OnEnable()

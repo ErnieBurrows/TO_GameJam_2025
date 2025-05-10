@@ -43,8 +43,6 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     private void Setup()
     {
-        Debug.Log("<UIHandler> Setting up.");
-
         // Virtual Mouse
         _virtualMouseCanvas = Instantiate(_virtualMouseCanvasPrefab, transform);
         _virtualCursor = _virtualMouseCanvas.transform.Find("VirtualMouseHandler") as RectTransform;
@@ -127,13 +125,21 @@ public class UIHandler : MonoBehaviour
     {
         Debug.Log($"<UIHandler> Toggling item label for {gameObject.name} to {isActive}");
     }
+
+    private void OnMoneyChanged()
+    {
+        Debug.Log("<UIHandler> Money changed.");
+    }
     // --------------------------------------------------
     private void OnEnable()
     {
         GameStateManager.OnGameStateManagerInitialized += Setup;
         GameStateManager.OnGameStateChanged += GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered += ToggleItemLabel;
+        InventoryItem.OnMoneyChanged += OnMoneyChanged;
     }
+
+    
 
     // -----------------.-----------------------
     private void OnDisable()
@@ -141,6 +147,7 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized -= Setup;
         GameStateManager.OnGameStateChanged -= GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered -= ToggleItemLabel;
+        InventoryItem.OnMoneyChanged -= OnMoneyChanged;
     }
     // --------------------------------------------------
 }
