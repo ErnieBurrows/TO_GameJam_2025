@@ -72,7 +72,7 @@
                     "name": "Sprint",
                     "type": "Button",
                     "id": "641cd816-40e6-41b4-8c3d-04687c349290",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -99,6 +99,15 @@
                     "name": "Use",
                     "type": "Button",
                     "id": "0189f795-e14a-4008-a77c-043194474173",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lootbag",
+                    "type": "Button",
+                    "id": "75567e9b-4c08-4254-b7c1-6790f0eb02d9",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -512,6 +521,28 @@
                     "action": "Use",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e506a03e-c258-44a5-ab68-b31cac21850c",
+                    "path": "<DualShockGamepad>/touchpadButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lootbag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4b22e9ec-653f-48be-b6e8-58a031514414",
+                    "path": "<Keyboard>/l",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Lootbag",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -532,7 +563,7 @@
                     "name": "Submit",
                     "type": "Button",
                     "id": "7607c7b6-cd76-4816-beef-bd0341cfe950",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -989,6 +1020,17 @@
                     "name": "",
                     "id": "0ec4b4c4-a514-44f8-b5fe-a1174c0af74f",
                     "path": "<VirtualMouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "873c7808-6646-485a-b3b8-f2a315b2f257",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

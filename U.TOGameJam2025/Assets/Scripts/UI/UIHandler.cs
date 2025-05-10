@@ -11,19 +11,20 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject _virtualMouseCanvasPrefab;
     [SerializeField] GameObject _lootbagPrefab;
     [SerializeField] GameObject _mainHudCanvasPrefab;
-    [SerializeField] GameObject _dropLootCanvasPrefab;
-    [SerializeField] GameObject _bagLootCanvasPrefab;
+    [SerializeField] GameObject _lootbagCanvasPrefab;
 
     private GameObject _virtualMouseCanvas;
     private GameObject _lootbag;
     private GameObject _mainHudCanvas;
-    private GameObject _dropLootCanvas;
-    private GameObject _bagLootCanvas;
+    private GameObject _lootbagCanvas;
 
     private RectTransform _virtualCursor;
     // --------------------------------------------------
     // [[VALUES]]
     private Vector2 _defaultVirtualMousePos;
+    private bool _isVirtualMouseEnabled;
+
+    public bool IsVirtualMouseEnabled => _isVirtualMouseEnabled;
     // --------------------------------------------------
     private void Awake()
     {
@@ -54,28 +55,24 @@ public class UIHandler : MonoBehaviour
         _mainHudCanvas.SetActive(false);
         Debug.Log(_mainHudCanvas == null ? "mainhud null" : "mainhud not null");
 
-        // Drop Loot
-        _dropLootCanvas = Instantiate(_dropLootCanvasPrefab,transform);
-        _dropLootCanvas.SetActive(false);
-
-        // Bag Loot
-        _bagLootCanvas = Instantiate(_bagLootCanvasPrefab,transform);
-        _bagLootCanvas.SetActive(false);
+        // Lootbag
+        _lootbagCanvas = Instantiate(_lootbagCanvasPrefab,transform);
+        _lootbagCanvas.SetActive(false);
     }
     // --------------------------------------------------
     public void GameStart()
     {
-        Lootbag(true);
+        LootbagSystem(true);
         SwitchState(UIStates.MAIN_HUD);
     }
+    // --------------------------------------------------
     // --------------------------------------------------
     public void SwitchState(UIStates state)
     {
         // Disable all first
         Debug.Log(_mainHudCanvas == null ? "mainhud null" : "mainhud not null");
         _mainHudCanvas.SetActive(false);
-        _dropLootCanvas.SetActive(false);
-        _bagLootCanvas.SetActive(false);
+        _lootbagCanvas.SetActive(false);
 
         switch (state)
         {
@@ -83,13 +80,9 @@ public class UIHandler : MonoBehaviour
                 VirtualMouse(false);
                 _mainHudCanvas.SetActive(true);
                 break;
-            case UIStates.BAG_THE_LOOT:
+            case UIStates.LOOTBAG:
                 VirtualMouse(true);
-                _bagLootCanvas.SetActive(true);
-                break;
-            case UIStates.DROP_THE_LOOT:
-                VirtualMouse(true);
-                _dropLootCanvas.SetActive(true);
+                _lootbagCanvas.SetActive(true);
                 break;
             case UIStates.SELL_THE_LOOT:
                 break;
@@ -98,14 +91,16 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     public void VirtualMouse(bool value)
     {
+        _isVirtualMouseEnabled = value;
         _virtualMouseCanvas.SetActive(value);
 
-        if (_virtualMouseCanvas)
+        if (_isVirtualMouseEnabled)
             _virtualCursor.anchoredPosition = _defaultVirtualMousePos;
     }
     // --------------------------------------------------
-    public void Lootbag(bool value)
+    public void LootbagSystem(bool value)
     {
         _lootbag.SetActive(value);
-    }// --------------------------------------------------
+    }
+    // --------------------------------------------------
 }

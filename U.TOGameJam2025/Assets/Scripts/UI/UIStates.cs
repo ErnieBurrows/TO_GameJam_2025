@@ -1,7 +1,6 @@
 public enum UIStates
 {
     MAIN_HUD,
-    BAG_THE_LOOT,
-    DROP_THE_LOOT,
+    LOOTBAG,
     SELL_THE_LOOT
 }
