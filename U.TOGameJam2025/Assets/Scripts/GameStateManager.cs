@@ -42,6 +42,7 @@ public class GameStateManager : MonoBehaviour
     {
         pauseAction = playerInput.actions["Pause"];
         unPauseAction = playerInput.actions["UnPause"];
+
         lootBagOpenAction = playerInput.actions["LootBagOpen"];
         lootBagCloseAction = playerInput.actions["LootBagClose"];
     }
@@ -52,6 +53,7 @@ public class GameStateManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Player");
 
         OnGameStateManagerInitialized?.Invoke();
+        Debug.Log("GameStateManager Initialized");
     }
 
     void OnEnable()
@@ -67,8 +69,6 @@ public class GameStateManager : MonoBehaviour
         lootBagOpenAction.Enable();
         lootBagCloseAction.Enable();
     }
-
-    
 
     void OnDisable()
     {

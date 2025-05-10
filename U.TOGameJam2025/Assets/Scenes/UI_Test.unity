@@ -4340,7 +4340,7 @@ MonoBehaviour:
   largeLootPrefabs:
   - {fileID: 8302821470280430543, guid: db49c29e7b6e0374e97620ce70b6a4c8, type: 3}
   totalLootSpawnPrice: 8700
-  smallToLargeLootBias: 100
+  smallToLargeLootBias: 29.7
   lootParentTransform: {fileID: 1660459009}
 --- !u!1001 &675047127
 PrefabInstance:

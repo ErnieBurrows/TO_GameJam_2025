@@ -20,19 +20,19 @@ public class LootSpawnManager : MonoBehaviour
     private List<Transform> smallLootSpawnPoints = new List<Transform>();
     private List<Transform> mediumLootSpawnPoints = new List<Transform>();  
     private List<Transform> largeLootSpawnPoints = new List<Transform>();
-    
 
-    void Start()
+    void Awake()
     {
         smallLootSpawnPoints.AddRange(smallLootSpawnZones.GetComponentsInChildren<Transform>());
         mediumLootSpawnPoints.AddRange(mediumLootSpawnZones.GetComponentsInChildren<Transform>());
-        largeLootSpawnPoints.AddRange(largeLootSpawnZones.GetComponentsInChildren<Transform>());
+        largeLootSpawnPoints.AddRange(largeLootSpawnZones.GetComponentsInChildren<Transform>()); 
 
         GameStateManager.OnGameStateManagerInitialized += SpawnLootFromBias;
     }
 
     private void SpawnLootFromBias()
     {
+        Debug.Log("<LootSpawnManager> Spawning loot based on bias.");
         currentLootSpawnPrice = 0;
 
         List<(List<GameObject> prefabs, List<Transform> spawnPoints)> lootCategories = new()
