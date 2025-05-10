@@ -522,6 +522,17 @@
                 },
                 {
                     "name": "",
+                    "id": "d9a7b888-121a-49a3-83b0-c694045466b7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drop",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "544c9d6a-caf1-47b5-8f58-6ded2f0e8fd5",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -533,8 +544,19 @@
                 },
                 {
                     "name": "",
+                    "id": "1f915393-27c8-47f6-b7b8-95740f5eb6e0",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Use",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "e506a03e-c258-44a5-ab68-b31cac21850c",
-                    "path": "<DualShockGamepad>/touchpadButton",
+                    "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
