@@ -11090,17 +11090,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2685303923725750302, guid: b67b20d59b1e0f8438fb8c672a8c9c1a, type: 3}
-      propertyPath: _lootbagCanvasPrefab
-      value: 
-      objectReference: {fileID: 2868404060493677733, guid: 322c4288966424144924f3a4c1b9ff73, type: 3}
     - target: {fileID: 8327053250454562299, guid: b67b20d59b1e0f8438fb8c672a8c9c1a, type: 3}
       propertyPath: m_Name
       value: UIHandler
-      objectReference: {fileID: 0}
-    - target: {fileID: 8327053250454562299, guid: b67b20d59b1e0f8438fb8c672a8c9c1a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

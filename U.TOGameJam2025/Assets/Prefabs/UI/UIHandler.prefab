@@ -48,3 +48,4 @@ MonoBehaviour:
   _lootbagPrefab: {fileID: 218294684474868079, guid: 833f432a914252f4a8f78c51d8892d12, type: 3}
   _mainHudCanvasPrefab: {fileID: 412739117516409475, guid: 36cd079cb27ab1943b8a06dc7af07478, type: 3}
   _lootbagCanvasPrefab: {fileID: 2868404060493677733, guid: 322c4288966424144924f3a4c1b9ff73, type: 3}
+  _inputActionAsset: {fileID: 0}
