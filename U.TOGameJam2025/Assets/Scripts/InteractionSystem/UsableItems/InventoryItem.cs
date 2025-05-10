@@ -19,23 +19,28 @@ public class InventoryItem : MonoBehaviour, IUsable
         {
             component.DropItem(gameObject);                                 // Call the DropItem method on all InteractorComponents in the scene
         }
+        
         OnUse?.Invoke();
 
-        LootbagSystem.Instance.BagItem(this);
-
-        PlayerInventory.Instance.currentMoney += actor.GetComponent<LootItem>().Value; // Assuming the item gives 1 money when used
-
-        OnMoneyChanged?.Invoke(); 
+        LootbagSystem.Instance.BagItem(this);  
     }
 
     public void Dropped()
     {
+        PlayerInventory.Instance.currentMoney -= GetComponent<LootItem>().Value; 
+
         _itemState = ItemState.DROPPED;
+
+        OnMoneyChanged?.Invoke(); 
     }
 
     public void Collected()
     {
+        PlayerInventory.Instance.currentMoney += GetComponent<LootItem>().Value; 
+
         _itemState = ItemState.IN_BAG;
+
+        OnMoneyChanged?.Invoke(); 
     }
 
     private enum ItemState
