@@ -30,13 +30,11 @@ public class InventoryItem : MonoBehaviour, IUsable
 
     public void Dropped()
     {
-        Debug.Log(gameObject.name + " was dropped.");
         _itemState = ItemState.DROPPED;
     }
 
     public void Collected()
     {
-        Debug.Log(gameObject.name + " was picked up.");
         _itemState = ItemState.IN_BAG;
     }
 
