@@ -31,7 +31,7 @@ public class GameStateManager : MonoBehaviour
     #endregion
 
     [Header("Input Actions")]
-    [SerializeField] private PlayerInput playerInput;
+    private PlayerInput playerInput;
     private InputAction pauseAction;
     private InputAction unPauseAction;
     private InputAction lootBagOpenAction;
@@ -40,6 +40,8 @@ public class GameStateManager : MonoBehaviour
 
     void Awake()
     {
+        playerInput = FindFirstObjectByType<PlayerInput>();
+        
         pauseAction = playerInput.actions["Pause"];
         unPauseAction = playerInput.actions["UnPause"];
 
@@ -53,6 +55,8 @@ public class GameStateManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Player");
 
         OnGameStateManagerInitialized?.Invoke();
+
+        
     }
 
     void OnEnable()
