@@ -4332,9 +4332,14 @@ MonoBehaviour:
   mediumLootSpawnZones: {fileID: 299450773}
   largeLootSpawnZones: {fileID: 888539830}
   smallLootPrefabs:
-  - {fileID: 7904279143209499473, guid: eb9a204acbe443148825c63d98a0bbf7, type: 3}
+  - {fileID: 4726225060918061926, guid: 4196bb0a789ee204d8079491e711daa0, type: 3}
+  - {fileID: 3832325115658061814, guid: 0d2c512240b682f498bd01d70cbf4941, type: 3}
+  - {fileID: 1118248511930670324, guid: 72ec7db2cbdaa1f46aea07aa02d12acf, type: 3}
+  - {fileID: 2866199002913827850, guid: 8ed8a524ab546174d85f4761162e7378, type: 3}
+  - {fileID: 6550506947795125553, guid: 283e318ddf037e540ad8469a45ec76ac, type: 3}
   mediumLootPrefabs:
-  - {fileID: 3487187268101565870, guid: 00a27448b15a0704680ae716182f0671, type: 3}
+  - {fileID: 5661511221899659056, guid: 4d0941ba5973ae6448868959350ef835, type: 3}
+  - {fileID: 6006156788677349244, guid: 59c7f31e6b0f08b4aa628c33da759ef6, type: 3}
   largeLootPrefabs:
   - {fileID: 8302821470280430543, guid: db49c29e7b6e0374e97620ce70b6a4c8, type: 3}
   totalLootSpawnPrice: 8700
@@ -7921,6 +7926,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 54642739-9fc1-4965-a91a-6098fb1a537a
     m_ActionName: 'Player/Pause[/Keyboard/p]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2344c0ba-c949-4ff9-865d-762678235d59
+    m_ActionName: 'UI/UnPause[/Keyboard/p]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ac0dd7e0-b300-4304-ab86-b119dcf02a1c
+    m_ActionName: 'UI/LootBagClose[/Keyboard/backspace]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

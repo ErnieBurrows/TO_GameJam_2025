@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 3283947542069359590}
   - component: {fileID: 1205007154979578358}
   m_Layer: 7
-  m_Name: LOOT_MediumItem01
+  m_Name: LOOT_Medium_BASE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

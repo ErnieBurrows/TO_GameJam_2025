@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3befcca6eb61a141a7638b65ae0c331, type: 3}
-  m_Name: SmallItem01
+  m_Name: HandMirror
   m_EditorClassIdentifier: 
-  itemName: Small Item 01
-  weight: 15
-  value: 100
+  itemName: Hand Mirror
+  weight: 6
+  value: 55
