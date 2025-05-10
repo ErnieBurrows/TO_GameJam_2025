@@ -23,8 +23,10 @@ public class UIHandler : MonoBehaviour
     // [[VALUES]]
     private Vector2 _defaultVirtualMousePos;
     private bool _isVirtualMouseEnabled;
+    private UIStates _currentState;
 
     public bool IsVirtualMouseEnabled => _isVirtualMouseEnabled;
+    public UIStates CurrentState => _currentState;
     // --------------------------------------------------
     private void Awake()
     {
@@ -32,32 +34,31 @@ public class UIHandler : MonoBehaviour
             Destroy(gameObject);
 
         Instance = this;
-
-        Setup();
-
-        GameStart();
     }
     // --------------------------------------------------
     private void Setup()
     {
+        Debug.Log("<UIHandler> Setting up.");
+
         // Virtual Mouse
         _virtualMouseCanvas = Instantiate(_virtualMouseCanvasPrefab, transform);
         _virtualCursor = _virtualMouseCanvas.transform.Find("VirtualMouseHandler/Cursor") as RectTransform;
         _defaultVirtualMousePos = _virtualCursor.anchoredPosition;
         _virtualMouseCanvas.SetActive(false);
 
-        // Lootbag
+        // Lootbag System
         _lootbag = Instantiate(_lootbagPrefab, transform);
-        _lootbag.SetActive(false);
+        LootbagSystem(false);
 
         // Main HUD
         _mainHudCanvas = Instantiate(_mainHudCanvasPrefab,transform);
         _mainHudCanvas.SetActive(false);
-        Debug.Log(_mainHudCanvas == null ? "mainhud null" : "mainhud not null");
 
-        // Lootbag
+        // Lootbag View
         _lootbagCanvas = Instantiate(_lootbagCanvasPrefab,transform);
         _lootbagCanvas.SetActive(false);
+
+        GameStart();
     }
     // --------------------------------------------------
     public void GameStart()
@@ -66,11 +67,9 @@ public class UIHandler : MonoBehaviour
         SwitchState(UIStates.MAIN_HUD);
     }
     // --------------------------------------------------
-    // --------------------------------------------------
     public void SwitchState(UIStates state)
     {
         // Disable all first
-        Debug.Log(_mainHudCanvas == null ? "mainhud null" : "mainhud not null");
         _mainHudCanvas.SetActive(false);
         _lootbagCanvas.SetActive(false);
 
@@ -101,6 +100,28 @@ public class UIHandler : MonoBehaviour
     public void LootbagSystem(bool value)
     {
         _lootbag.SetActive(value);
+    }
+    // --------------------------------------------------
+    private void GameStateChanged(GameStateManager.GameState gameState)
+    {
+        switch (gameState)
+        {
+            case GameStateManager.GameState:
+                SwitchState(UIStates.LOOTBAG);
+                break;
+        }
+    }
+    // --------------------------------------------------
+    private void OnEnable()
+    {
+        GameStateManager.OnGameStateManagerInitialized += Setup;
+        GameStateManager.OnGameStateChanged += GameStateChanged;
+    }
+    // --------------------------------------------------
+    private void OnDisable()
+    {
+        GameStateManager.OnGameStateManagerInitialized -= Setup;
+        GameStateManager.OnGameStateChanged -= GameStateChanged;
     }
     // --------------------------------------------------
 }
