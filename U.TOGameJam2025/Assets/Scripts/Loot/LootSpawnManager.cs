@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.Cinemachine;
 using UnityEngine;
 
 public class LootSpawnManager : MonoBehaviour
@@ -44,7 +43,7 @@ public class LootSpawnManager : MonoBehaviour
         // Bias influences the starting index (0 = large, 1 = medium, 2 = small)
         int startIndex = Mathf.Clamp(Mathf.RoundToInt(100f - smallToLargeLootBias) / 50, 0, lootCategories.Count - 1);
 
-        for (int i = 0; i <lootCategories.Count; i++)
+        for (int i = startIndex; i <lootCategories.Count; i++)
         {
             TrySpawnFromCategory(lootCategories[i].prefabs, lootCategories[i].spawnPoints);
 
@@ -82,8 +81,6 @@ public class LootSpawnManager : MonoBehaviour
             availableSpawnPoints.RemoveAt(spawnIndex);
 
             GameObject spawnedLoot = Instantiate(candidatePrefab, spawnPoint.position, Quaternion.identity);
-            //spawnedLoot.transform.localPosition = Vector3.zero;
-            //spawnedLoot.transform.localRotation = Quaternion.identity;
 
             currentLootSpawnPrice += lootItem.Value;
             Debug.Log($"Spawned {lootItem.ItemName} worth {lootItem.Value} at {spawnPoint.position}");
