@@ -71,7 +71,7 @@ public class GameStateManager : MonoBehaviour
     private void TogglePause(bool isPausing)
     {
         if(isPausing)
-            HandleGameState(GameState.UIPAUSED);
+            HandleGameState(GameState.PAUSED);
         else
             HandleGameState(GameState.INGAME);
     }
@@ -85,14 +85,14 @@ public class GameStateManager : MonoBehaviour
                 currentGameState = GameState.INGAME;
                 break;
 
-            case GameState.UIPAUSED:
+            case GameState.PAUSED:
                 playerInput.SwitchCurrentActionMap("UI");
-                currentGameState = GameState.UIPAUSED;
+                currentGameState = GameState.PAUSED;
                 break;
 
-            case GameState.UIUNPAUSED:
+            case GameState.LOOTBAG:
                 playerInput.SwitchCurrentActionMap("UI");
-                currentGameState = GameState.UIUNPAUSED;
+                currentGameState = GameState.LOOTBAG;
                 break;
 
             default:
@@ -105,7 +105,7 @@ public class GameStateManager : MonoBehaviour
     
     public enum GameState{
         INGAME,
-        UIPAUSED,
-        UIUNPAUSED
+        PAUSED,
+        LOOTBAG
     };
 }
