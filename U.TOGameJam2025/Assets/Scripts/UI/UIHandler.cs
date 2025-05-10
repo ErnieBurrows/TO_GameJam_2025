@@ -1,6 +1,10 @@
 using System;
+using System.Data;
+using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
@@ -14,12 +18,14 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject _lootbagPrefab;
     [SerializeField] GameObject _mainHudCanvasPrefab;
     [SerializeField] GameObject _lootbagCanvasPrefab;
+    [SerializeField] InputActionAsset _inputActionAsset;
 
     private GameObject _virtualMouseCanvas;
     private GameObject _lootbag;
     private GameObject _mainHudCanvas;
     private GameObject _lootbagCanvas;
     private RawImage _lootbagTexture;
+    private TextMeshProUGUI _itemLabelTMPro;
 
     private RectTransform _virtualCursor;
 
@@ -41,13 +47,28 @@ public class UIHandler : MonoBehaviour
         Instance = this;
     }
     // --------------------------------------------------
+    private void Start()
+    {
+        var virtualMouse = InputSystem.GetDevice<Mouse>("VirtualMouse");
+        if (virtualMouse == null)
+        {
+            virtualMouse = (Mouse)InputSystem.AddDevice("Mouse");
+        }
+
+        InputUser user = InputUser.CreateUserWithoutPairedDevices();
+        InputUser.PerformPairingWithDevice(virtualMouse, user);
+        user.AssociateActionsWithUser(_inputActionAsset);
+
+        InputSystem.Update();
+    }
+    // --------------------------------------------------
     private void Setup()
     {
         // Virtual Mouse
         _virtualMouseCanvas = Instantiate(_virtualMouseCanvasPrefab, transform);
         _virtualCursor = _virtualMouseCanvas.transform.Find("VirtualMouseHandler") as RectTransform;
         _defaultVirtualMousePos = _virtualCursor.anchoredPosition;
-        _virtualMouseCanvas.SetActive(false);
+        VirtualMouse(false);
 
         // Lootbag System
         _lootbag = Instantiate(_lootbagPrefab, transform);
@@ -61,6 +82,9 @@ public class UIHandler : MonoBehaviour
         _lootbagCanvas = Instantiate(_lootbagCanvasPrefab,transform);
         _lootbagTexture = _lootbagCanvas.transform.Find("LootbagTexture").GetComponent<RawImage>();
         _lootbagCanvas.SetActive(false);
+
+        // Get Item Label TMPro
+        _itemLabelTMPro = _mainHudCanvas.transform.Find("ItemText").GetComponent<TextMeshProUGUI>();
 
         GameStart();
     }
@@ -94,12 +118,9 @@ public class UIHandler : MonoBehaviour
     {
         _isVirtualMouseEnabled = value;
         _virtualMouseCanvas.SetActive(value);
-
-        if (_isVirtualMouseEnabled)
-        {
-            // _virtualCursor.anchoredPosition = _defaultVirtualMousePos;
-            // _virtualCursor.GetComponent<VirtualMouseInput>().cursorTransform.position = _defaultVirtualMousePos;
-        }
+        // VirtualMouseInput virtualMouse = _virtualMouseCanvas.transform.Find("VirtualMouseHandler").GetComponent<VirtualMouseInput>();
+        // 
+        // virtualMouse.enabled = _isVirtualMouseEnabled;
     }
     // --------------------------------------------------
     public void LootbagSystem(bool value)
@@ -124,8 +145,20 @@ public class UIHandler : MonoBehaviour
     private void ToggleItemLabel(GameObject gameObject, bool isActive)
     {
         Debug.Log($"<UIHandler> Toggling item label for {gameObject.name} to {isActive}");
-    }
 
+        if (gameObject.GetComponent<InventoryItem>())
+        {
+            LootItem item = gameObject.GetComponent<LootItem>();
+            _itemLabelTMPro.text = $"<b>{item.ItemName}</b>\n<size=25><color=#ffff00>(Valuable - ${item.Value})</color></size>";
+        }
+        else if (gameObject.GetComponent<Weapon>())
+        {
+            _itemLabelTMPro.text = $"<b>{gameObject.name}</b>\n<size=25>(Weapon)</size>";
+        }
+
+        _itemLabelTMPro.enabled = isActive;
+    }
+    // --------------------------------------------------
     private void OnMoneyChanged()
     {
         Debug.Log("<UIHandler> Money changed.");
@@ -138,8 +171,6 @@ public class UIHandler : MonoBehaviour
         InteractorComponent.OnInteractableObjectHovered += ToggleItemLabel;
         InventoryItem.OnMoneyChanged += OnMoneyChanged;
     }
-
-    
 
     // -----------------.-----------------------
     private void OnDisable()
