@@ -287,7 +287,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PRESS          ON AN ITEM TO DROP.
+  m_text: Press          on an item to drop.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a43e2f24c7d76d146bb5ff64e863c35a, type: 2}
   m_sharedMaterial: {fileID: -542118673334590099, guid: a43e2f24c7d76d146bb5ff64e863c35a, type: 2}
@@ -393,7 +393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -165, y: 0}
+  m_AnchoredPosition: {x: -140, y: 0}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3672134931852041895
@@ -591,7 +591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -42, y: 42}
+  m_AnchoredPosition: {x: -32, y: 32}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1954587119094793510
@@ -818,7 +818,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -135, y: 0}
+  m_AnchoredPosition: {x: -115, y: 0}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6449202120631452563
@@ -1061,7 +1061,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: USE          TO MOVE THE CURSOR.
+  m_text: Use          to move the cursor.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: a43e2f24c7d76d146bb5ff64e863c35a, type: 2}
   m_sharedMaterial: {fileID: -542118673334590099, guid: a43e2f24c7d76d146bb5ff64e863c35a, type: 2}

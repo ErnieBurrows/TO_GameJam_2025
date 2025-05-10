@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
@@ -45,7 +46,7 @@ public class UIHandler : MonoBehaviour
 
         // Virtual Mouse
         _virtualMouseCanvas = Instantiate(_virtualMouseCanvasPrefab, transform);
-        _virtualCursor = _virtualMouseCanvas.transform.Find("VirtualMouseHandler/Cursor") as RectTransform;
+        _virtualCursor = _virtualMouseCanvas.transform.Find("VirtualMouseHandler") as RectTransform;
         _defaultVirtualMousePos = _virtualCursor.anchoredPosition;
         _virtualMouseCanvas.SetActive(false);
 
@@ -96,7 +97,10 @@ public class UIHandler : MonoBehaviour
         _virtualMouseCanvas.SetActive(value);
 
         if (_isVirtualMouseEnabled)
-            _virtualCursor.anchoredPosition = _defaultVirtualMousePos;
+        {
+            // _virtualCursor.anchoredPosition = _defaultVirtualMousePos;
+            // _virtualCursor.GetComponent<VirtualMouseInput>().cursorTransform.position = _defaultVirtualMousePos;
+        }
     }
     // --------------------------------------------------
     public void LootbagSystem(bool value)
