@@ -20,7 +20,6 @@ public class LootSpawnManager : MonoBehaviour
     private List<Transform> smallLootSpawnPoints = new List<Transform>();
     private List<Transform> mediumLootSpawnPoints = new List<Transform>();  
     private List<Transform> largeLootSpawnPoints = new List<Transform>();
-    
 
     void Start()
     {
@@ -28,7 +27,7 @@ public class LootSpawnManager : MonoBehaviour
         mediumLootSpawnPoints.AddRange(mediumLootSpawnZones.GetComponentsInChildren<Transform>());
         largeLootSpawnPoints.AddRange(largeLootSpawnZones.GetComponentsInChildren<Transform>());
 
-        GameStateManager.OnGameStateManagerInitialized += SpawnLootFromBias;
+        SpawnLootFromBias();
     }
 
     private void SpawnLootFromBias()

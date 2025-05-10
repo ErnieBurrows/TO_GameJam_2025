@@ -122,7 +122,7 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized += Setup;
         GameStateManager.OnGameStateChanged += GameStateChanged;
     }
-    // -----------------.-----------------------
+    // --------------------------------------------------
     private void OnDisable()
     {
         GameStateManager.OnGameStateManagerInitialized -= Setup;
