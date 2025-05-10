@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
 public class GameStateManager : MonoBehaviour
 {
@@ -30,19 +31,51 @@ public class GameStateManager : MonoBehaviour
         UIUnPaused
     };
 
-    private GameState gameState;
+    public static event Action<GameState> OnGameStateChanged;
+    public static event Action OnGameStateManagerInitialized;
     [SerializeField] private PlayerInput playerInput;
+    private GameState gameState;
     private InputAction pauseAction;
+    private InputAction unPauseAction;
 
     void Awake()
     {
         pauseAction = playerInput.actions["Pause"];
-        pauseAction.performed += ctx => TogglePause();
+        unPauseAction = playerInput.actions["UnPause"];
     }
 
-    private void TogglePause()
+    void Start()
     {
-        HandleGameState(GameState.UIPaused);
+        gameState = GameState.InGame;
+        playerInput.SwitchCurrentActionMap("Player");
+        
+        OnGameStateManagerInitialized?.Invoke();
+    }
+
+    void OnEnable()
+    {
+        pauseAction.performed += ctx => TogglePause(true);
+        unPauseAction.performed += ctx => TogglePause(false);
+
+        pauseAction.Enable();
+        unPauseAction.Enable();
+    }
+   
+    void OnDisable()
+    {
+        pauseAction.performed -= ctx => TogglePause(true);
+        unPauseAction.performed -= ctx => TogglePause(false);
+
+        pauseAction.Disable();
+        unPauseAction.Disable();
+    }
+
+    private void TogglePause(bool isPausing)
+    {
+        if(isPausing)
+            HandleGameState(GameState.UIPaused);
+        else
+            HandleGameState(GameState.InGame);
     }
 
     private void HandleGameState(GameState gameState)
@@ -59,17 +92,9 @@ public class GameStateManager : MonoBehaviour
                 // Handle UI unpaused state
                 break;
             default:
-                throw new System.ArgumentOutOfRangeException(nameof(gameState), gameState, null);
+                throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);
         }
-    }
 
-    public void SetGameState(GameState gameState)
-    {
-        HandleGameState(gameState);
-    }
-
-    public GameState GetGameState()
-    {
-        return gameState;
+        OnGameStateChanged?.Invoke(gameState);
     }
 }
