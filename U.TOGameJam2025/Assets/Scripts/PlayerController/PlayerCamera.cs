@@ -17,7 +17,8 @@ public class PlayerCamera : MonoBehaviour
         lookAction.Enable();
 
         // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false; 
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false; 
     }
 
     void LateUpdate()

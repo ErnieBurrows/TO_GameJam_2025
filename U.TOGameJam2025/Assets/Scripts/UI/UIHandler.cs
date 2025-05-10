@@ -3,6 +3,7 @@ using System.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.UI;
@@ -26,6 +27,7 @@ public class UIHandler : MonoBehaviour
     private GameObject _lootbagCanvas;
     private RawImage _lootbagTexture;
     private TextMeshProUGUI _itemLabelTMPro;
+    private TextMeshProUGUI _lootbagLabelTMPro;
 
     private RectTransform _virtualCursor;
 
@@ -59,6 +61,11 @@ public class UIHandler : MonoBehaviour
         InputUser.PerformPairingWithDevice(virtualMouse, user);
         user.AssociateActionsWithUser(_inputActionAsset);
 
+        InputSystem.QueueStateEvent(virtualMouse, new MouseState
+        {
+            position = new Vector2(Screen.width / 2, Screen.height / 2)
+        });
+
         InputSystem.Update();
     }
     // --------------------------------------------------
@@ -85,6 +92,9 @@ public class UIHandler : MonoBehaviour
 
         // Get Item Label TMPro
         _itemLabelTMPro = _mainHudCanvas.transform.Find("ItemText").GetComponent<TextMeshProUGUI>();
+
+        // Get Lootbag Label TMPro;
+        _lootbagLabelTMPro = _mainHudCanvas.transform.Find("LootbagTexture/LootbagLabel").GetComponent<TextMeshProUGUI>();
 
         GameStart();
     }
@@ -144,8 +154,6 @@ public class UIHandler : MonoBehaviour
 
     private void ToggleItemLabel(GameObject gameObject, bool isActive)
     {
-        Debug.Log($"<UIHandler> Toggling item label for {gameObject.name} to {isActive}");
-
         if (gameObject.GetComponent<InventoryItem>())
         {
             LootItem item = gameObject.GetComponent<LootItem>();
@@ -161,7 +169,8 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     private void OnMoneyChanged()
     {
-        Debug.Log("<UIHandler> Money changed.");
+        float currentMoney = PlayerInventory.Instance.currentMoney;
+        _lootbagLabelTMPro.text = $"?/?\n${currentMoney}";
     }
     // --------------------------------------------------
     private void OnEnable()
