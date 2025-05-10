@@ -24,19 +24,17 @@ public class GameStateManager : MonoBehaviour
         }
     }
     #endregion
-    
-    public enum GameState{
-        InGame,
-        UIPaused,
-        UIUnPaused
-    };
 
+    #region Events
     public static event Action<GameState> OnGameStateChanged;
     public static event Action OnGameStateManagerInitialized;
+    #endregion
+
+    [Header("Input Actions")]
     [SerializeField] private PlayerInput playerInput;
-    private GameState gameState;
     private InputAction pauseAction;
     private InputAction unPauseAction;
+    private GameState currentGameState;
 
     void Awake()
     {
@@ -46,9 +44,9 @@ public class GameStateManager : MonoBehaviour
 
     void Start()
     {
-        gameState = GameState.InGame;
+        currentGameState = GameState.InGame;
         playerInput.SwitchCurrentActionMap("Player");
-        
+
         OnGameStateManagerInitialized?.Invoke();
     }
 
@@ -78,23 +76,36 @@ public class GameStateManager : MonoBehaviour
             HandleGameState(GameState.InGame);
     }
 
-    private void HandleGameState(GameState gameState)
+    private void HandleGameState(GameState stateToSwapTo)
     {
-        switch (gameState)
+        switch (stateToSwapTo)
         {
             case GameState.InGame:
                 playerInput.SwitchCurrentActionMap("Player");
+                currentGameState = GameState.InGame;
                 break;
+
             case GameState.UIPaused:
                 playerInput.SwitchCurrentActionMap("UI");
+                currentGameState = GameState.UIPaused;
                 break;
+
             case GameState.UIUnPaused:
-                // Handle UI unpaused state
+                playerInput.SwitchCurrentActionMap("UI");
+                currentGameState = GameState.UIUnPaused;
                 break;
+
             default:
-                throw new ArgumentOutOfRangeException(nameof(gameState), gameState, null);
+                throw new ArgumentOutOfRangeException(nameof(stateToSwapTo), stateToSwapTo, null);
         }
 
-        OnGameStateChanged?.Invoke(gameState);
+        OnGameStateChanged?.Invoke(stateToSwapTo);
     }
+
+    
+    public enum GameState{
+        InGame,
+        UIPaused,
+        UIUnPaused
+    };
 }
