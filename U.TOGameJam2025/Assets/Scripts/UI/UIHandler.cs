@@ -212,17 +212,22 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     private void OnItemPickedUp(GameObject itemObject)
     {
-        Debug.Log("Item Picked Up");
+        TextMeshProUGUI textLabel = _bagItemGuide.GetComponent<TextMeshProUGUI>();
+
         if (itemObject.GetComponent<InventoryItem>())
         {
-            Debug.Log("Item is Inventory Item");
-            _bagItemGuide.SetActive(true);
+            textLabel.text = "Bag Item";
         }
+        else if (itemObject.GetComponent<Weapon>())
+        {
+            textLabel.text = "Use";
+        }
+
+        _bagItemGuide.SetActive(true);
     }
     // --------------------------------------------------
     private void OnItemDropped(GameObject itemObject)
     {
-        Debug.Log("Item Dropped");
         _bagItemGuide.SetActive(false);
     }
     // --------------------------------------------------

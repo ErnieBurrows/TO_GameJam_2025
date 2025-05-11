@@ -55,8 +55,6 @@ public class GameStateManager : MonoBehaviour
         playerInput.SwitchCurrentActionMap("Player");
 
         OnGameStateManagerInitialized?.Invoke();
-
-        
     }
 
     void OnEnable()
@@ -127,6 +125,11 @@ public class GameStateManager : MonoBehaviour
         OnGameStateChanged?.Invoke(stateToSwapTo);
     }
 
+    private void GameEnd()
+    {
+        float currentMoney = PlayerInventory.Instance.currentMoney;
+        float currentWeight = PlayerInventory.Instance.currentWeight;
+    }
     
     public enum GameState{
         INGAME,
