@@ -7774,7 +7774,7 @@ MonoBehaviour:
   accelerationForce: 200
   walkSpeed: 7
   sprintSpeed: 14
-  encumberedSpeed: 2
+  encumberedSpeed: 1
   groundDrag: 5
   jumpForce: 12
   jumpCooldown: 0.25
@@ -8101,7 +8101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentMoney: 0
   currentWeight: 0
-  maxWeight: 10
+  maxWeight: 100
 --- !u!114 &1187910051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8115,6 +8115,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 1187910044}
+  encumbranceThreshold: 0.25
+  modifierBias: 0.25
 --- !u!1001 &1192213807
 PrefabInstance:
   m_ObjectHideFlags: 0
