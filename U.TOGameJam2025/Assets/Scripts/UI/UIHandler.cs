@@ -184,9 +184,11 @@ public class UIHandler : MonoBehaviour
     private void OnInventoryChanged()
     {
         float currentMoney = PlayerInventory.Instance.currentMoney;
-        _lootbagLabelTMPro.text = $"?/?\n<color=#ffff00>${currentMoney}</color>";
+        float currentWeight = PlayerInventory.Instance.currentWeight;
+        float maxWeight = PlayerInventory.Instance.maxWeight;
+        _lootbagLabelTMPro.text = $"{currentWeight}/{maxWeight} lbs\n<color=#ffff00>${currentMoney}</color>";
 
-        _droppingLootbagLabelTMPro.text = $"?/? - <color=#ffff00>${currentMoney}</color>";
+        _droppingLootbagLabelTMPro.text = $"{currentWeight}/{maxWeight} lbs - <color=#ffff00>${currentMoney}</color>";
     }
     // --------------------------------------------------
     private void OnEnable()
