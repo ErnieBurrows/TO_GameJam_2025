@@ -30,28 +30,64 @@ public class LootSpawnManager : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized += SpawnLootFromBias;
     }
 
-    private void SpawnLootFromBias()
-    {
-        currentLootSpawnPrice = 0;
+    // private void SpawnLootFromBias()
+    // {
+    //     currentLootSpawnPrice = 0;
 
-        List<(List<GameObject> prefabs, List<Transform> spawnPoints)> lootCategories = new()
-        {
-            (largeLootPrefabs, largeLootSpawnPoints),
-            (mediumLootPrefabs, mediumLootSpawnPoints),   
-            (smallLootPrefabs, smallLootSpawnPoints)
-        };
+    //     List<(List<GameObject> prefabs, List<Transform> spawnPoints)> lootCategories = new()
+    //     {
+    //         (largeLootPrefabs, largeLootSpawnPoints),
+    //         (mediumLootPrefabs, mediumLootSpawnPoints),   
+    //         (smallLootPrefabs, smallLootSpawnPoints)
+    //     };
 
-        // Bias influences the starting index (0 = large, 1 = medium, 2 = small)
-        int startIndex = Mathf.Clamp(Mathf.RoundToInt(100f - smallToLargeLootBias) / 50, 0, lootCategories.Count - 1);
 
-        for (int i = startIndex; i <lootCategories.Count; i++)
-        {
-            TrySpawnFromCategory(lootCategories[i].prefabs, lootCategories[i].spawnPoints);
+    //     // Bias influences the starting index (0 = large, 1 = medium, 2 = small)
+    //     int startIndex = Mathf.Clamp(Mathf.RoundToInt(100f - smallToLargeLootBias) / 50, 0, lootCategories.Count - 1);
 
-            if (currentLootSpawnPrice >= totalLootSpawnPrice) break;
+    //     for (int i = startIndex; i <lootCategories.Count; i++)
+    //     {
+    //         TrySpawnFromCategory(lootCategories[i].prefabs, lootCategories[i].spawnPoints);
+
+    //         if (currentLootSpawnPrice >= totalLootSpawnPrice) break;
             
+    //     }
+    // }
+
+    private void SpawnLootFromBias()
+{
+    currentLootSpawnPrice = 0f;
+
+    // Define weights based on bias (0 = small-heavy, 100 = large-heavy)
+    float smallWeight = Mathf.Clamp01((100f - smallToLargeLootBias) / 100f);
+    float largeWeight = Mathf.Clamp01(smallToLargeLootBias / 100f);
+    float mediumWeight = 1f; // Always normalized later
+
+    // Normalize weights so they sum to 1
+    float totalWeight = smallWeight + mediumWeight + largeWeight;
+    smallWeight /= totalWeight;
+    mediumWeight /= totalWeight;
+    largeWeight /= totalWeight;
+
+    while (currentLootSpawnPrice < totalLootSpawnPrice)
+    {
+        float rand = UnityEngine.Random.value;
+
+        // Decide which category to spawn from based on weights
+        if (rand < smallWeight)
+        {
+            TrySpawnFromCategory(smallLootPrefabs, smallLootSpawnPoints);
+        }
+        else if (rand < smallWeight + mediumWeight)
+        {
+            TrySpawnFromCategory(mediumLootPrefabs, mediumLootSpawnPoints);
+        }
+        else
+        {
+            TrySpawnFromCategory(largeLootPrefabs, largeLootSpawnPoints);
         }
     }
+}
 
     private void TrySpawnFromCategory(List<GameObject> prefabs, List<Transform> spawnPoints)
     {
