@@ -9,7 +9,7 @@ using System;
 public class InventoryItem : MonoBehaviour, IUsable
 {
     [field: SerializeField] public UnityEvent OnUse {get; private set;}
-    public static event Action OnInventoryChanged;                        // Event to notify when money changes true is added, false is removed
+    public static event Action OnInventoryChanged;                          // Event to notify when money changes true is added, false is removed
 
     private ItemState _itemState = ItemState.DROPPED;
 

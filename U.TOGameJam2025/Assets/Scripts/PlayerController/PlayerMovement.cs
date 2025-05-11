@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,10 @@ public class PlayerMovement : MonoBehaviour
     public float accelerationForce;    
     public float walkSpeed;
     public float sprintSpeed;
+    public float encumberedSpeed;
     public float groundDrag;
+    private float encumberedSpeedMultiplier = 1.0f;
+    private bool isEncumbered = false;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -70,7 +74,12 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; 
-
+      
+        originalYScale = transform.localScale.y; 
+        isReadyToJump = true;
+    }
+    private void OnEnable()
+    {
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions.FindAction("Move");
         jumpAction = playerInput.actions.FindAction("Jump");
@@ -81,14 +90,16 @@ public class PlayerMovement : MonoBehaviour
         crouchAction.performed += ctx => Crouch();
         crouchAction.canceled += ctx => StopCrouch();  
 
-        originalYScale = transform.localScale.y; 
-        isReadyToJump = true;
+        PlayerMovementModifier.OnMovementModifierChanged += HandleMovementModifier;
     }
+
     private void OnDisable()
     {
         jumpAction.performed -= ctx => Jump(); 
         crouchAction.performed -= ctx => Crouch();
         crouchAction.canceled -= ctx => StopCrouch();  
+
+        PlayerMovementModifier.OnMovementModifierChanged -= HandleMovementModifier;
     }
     void Update()
     {
@@ -194,7 +205,10 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);                                            // Get the flat velocity (ignore y-axis)
 
-        float currentMaxSpeed = maxSpeed;                                               
+        float currentMaxSpeed = maxSpeed * encumberedSpeedMultiplier;                                                           // Calculate the current max speed based on encumbered state
+
+        if(isEncumbered)                                                                                                        // If the player is encumbered
+            currentMaxSpeed = encumberedSpeed;
 
         if(flatVel.magnitude > currentMaxSpeed)                                                               
         {
@@ -206,6 +220,12 @@ public class PlayerMovement : MonoBehaviour
     private void CheckIsGrounded()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, groundMask); 
+    }
+
+    private void HandleMovementModifier(float speedModifier, bool isEncumbered)
+    {
+        this.isEncumbered = isEncumbered;                   // Update the encumbered state
+        encumberedSpeedMultiplier = speedModifier;          // Update the encumbered speed multiplier
     }
     #endregion
 

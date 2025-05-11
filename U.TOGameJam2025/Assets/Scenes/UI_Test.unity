@@ -7751,6 +7751,7 @@ GameObject:
   - component: {fileID: 1187910047}
   - component: {fileID: 1187910046}
   - component: {fileID: 1187910050}
+  - component: {fileID: 1187910051}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -7773,6 +7774,7 @@ MonoBehaviour:
   accelerationForce: 200
   walkSpeed: 7
   sprintSpeed: 14
+  encumberedSpeed: 2
   groundDrag: 5
   jumpForce: 12
   jumpCooldown: 0.25
@@ -8099,7 +8101,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentMoney: 0
   currentWeight: 0
-  maxWeight: 100
+  maxWeight: 10
+--- !u!114 &1187910051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187910043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab3b2d9452688149bfd74b2f24087ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMovement: {fileID: 1187910044}
 --- !u!1001 &1192213807
 PrefabInstance:
   m_ObjectHideFlags: 0
