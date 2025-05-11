@@ -170,7 +170,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 3001919216989983466, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_MiddleButtonAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
       m_Name: Middle Button
       m_Type: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: -2185481485913320682, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_RightButtonAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
       m_Name: Right Button
       m_Type: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   m_ScrollWheelAction:
-    m_UseReference: 1
+    m_UseReference: 0
     m_Action:
       m_Name: Scroll Wheel
       m_Type: 0
