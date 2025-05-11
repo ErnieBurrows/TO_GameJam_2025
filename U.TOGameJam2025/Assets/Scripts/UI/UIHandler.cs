@@ -28,6 +28,7 @@ public class UIHandler : MonoBehaviour
     private RawImage _lootbagTexture;
     private TextMeshProUGUI _itemLabelTMPro;
     private TextMeshProUGUI _lootbagLabelTMPro;
+    private TextMeshProUGUI _droppingLootbagLabelTMPro;
 
     private RectTransform _virtualCursor;
 
@@ -93,8 +94,13 @@ public class UIHandler : MonoBehaviour
         // Get Item Label TMPro
         _itemLabelTMPro = _mainHudCanvas.transform.Find("ItemText").GetComponent<TextMeshProUGUI>();
 
-        // Get Lootbag Label TMPro;
+        // Get Lootbag Label TMPro
         _lootbagLabelTMPro = _mainHudCanvas.transform.Find("LootbagTexture/LootbagLabel").GetComponent<TextMeshProUGUI>();
+
+        // Get Dropping Lootbag Label TMPro
+        _droppingLootbagLabelTMPro = _lootbagCanvas.transform.Find("WeightMoneyLabel").GetComponent<TextMeshProUGUI>();
+
+        OnInventoryChanged();
 
         GameStart();
     }
@@ -167,10 +173,12 @@ public class UIHandler : MonoBehaviour
         _itemLabelTMPro.enabled = isActive;
     }
     // --------------------------------------------------
-    private void OnMoneyChanged()
+    private void OnInventoryChanged()
     {
         float currentMoney = PlayerInventory.Instance.currentMoney;
-        _lootbagLabelTMPro.text = $"?/?\n${currentMoney}";
+        _lootbagLabelTMPro.text = $"?/?\n<color=#ffff00>${currentMoney}</color>";
+
+        _droppingLootbagLabelTMPro.text = $"?/? - <color=#ffff00>${currentMoney}</color>";
     }
     // --------------------------------------------------
     private void OnEnable()
@@ -178,7 +186,7 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized += Setup;
         GameStateManager.OnGameStateChanged += GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered += ToggleItemLabel;
-        InventoryItem.OnInventoryChanged += OnMoneyChanged;
+        InventoryItem.OnInventoryChanged += OnInventoryChanged;
     }
 
     // -----------------.-----------------------
@@ -187,7 +195,7 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized -= Setup;
         GameStateManager.OnGameStateChanged -= GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered -= ToggleItemLabel;
-        InventoryItem.OnInventoryChanged -= OnMoneyChanged;
+        InventoryItem.OnInventoryChanged -= OnInventoryChanged;
     }
     // --------------------------------------------------
 }
