@@ -31,6 +31,7 @@ public class UIHandler : MonoBehaviour
     private TextMeshProUGUI _itemLabelTMPro;
     private TextMeshProUGUI _lootbagLabelTMPro;
     private TextMeshProUGUI _droppingLootbagLabelTMPro;
+    private GameObject _bagItemGuide;
 
     private RectTransform _virtualCursor;
 
@@ -39,7 +40,7 @@ public class UIHandler : MonoBehaviour
     // [[VALUES]]
     private Vector2 _defaultVirtualMousePos;
     private bool _isVirtualMouseEnabled;
-    private UIStates _currentState;
+    private UIStates _currentState = UIStates.NONE;
 
     public bool IsVirtualMouseEnabled => _isVirtualMouseEnabled;
     public UIStates CurrentState => _currentState;
@@ -71,6 +72,8 @@ public class UIHandler : MonoBehaviour
         // Main HUD
         Debug.Log("<UIHandler> Main HUD.");
         _mainHudCanvas = Instantiate(_mainHudCanvasPrefab,transform);
+        _bagItemGuide = _mainHudCanvas.transform.Find("BagItemButtonGuide").gameObject;
+        _bagItemGuide.SetActive(false);
         _mainHudCanvas.SetActive(false);
 
         // Lootbag View
@@ -106,6 +109,8 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     public void SwitchState(UIStates state)
     {
+        if (state == _currentState) return;
+
         // Disable all first
         _mainHudCanvas.SetActive(false);
         _lootbagCanvas.SetActive(false);
@@ -115,16 +120,19 @@ public class UIHandler : MonoBehaviour
         {
             case UIStates.MAIN_HUD:
                 Debug.Log("<UIHandler> Switched to Main HUD.");
+                _currentState = UIStates.MAIN_HUD;
                 VirtualMouse(false);
                 _mainHudCanvas.SetActive(true);
                 break;
             case UIStates.LOOTBAG:
                 Debug.Log("<UIHandler> Switched to Lootbag.");
+                _currentState = UIStates.LOOTBAG;
                 VirtualMouse(true);
                 _lootbagCanvas.SetActive(true);
                 break;
             case UIStates.GAME_PAUSED:
                 Debug.Log("<UIHandler> Switched to Paused.");
+                _currentState = UIStates.GAME_PAUSED;
                 VirtualMouse(true);
                 _pauseCanvas.SetActive(true);
                 break;
@@ -198,6 +206,24 @@ public class UIHandler : MonoBehaviour
         _lootbagLabelTMPro.text = $"{currentWeight}/{maxWeight} lbs\n<color=#ffff00>${currentMoney}</color>";
 
         _droppingLootbagLabelTMPro.text = $"{currentWeight}/{maxWeight} lbs - <color=#ffff00>${currentMoney}</color>";
+
+        _bagItemGuide.SetActive(false);
+    }
+    // --------------------------------------------------
+    private void OnItemPickedUp(GameObject itemObject)
+    {
+        Debug.Log("Item Picked Up");
+        if (itemObject.GetComponent<InventoryItem>())
+        {
+            Debug.Log("Item is Inventory Item");
+            _bagItemGuide.SetActive(true);
+        }
+    }
+    // --------------------------------------------------
+    private void OnItemDropped(GameObject itemObject)
+    {
+        Debug.Log("Item Dropped");
+        _bagItemGuide.SetActive(false);
     }
     // --------------------------------------------------
     private void OnEnable()
@@ -206,6 +232,8 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateChanged += GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered += ToggleItemLabel;
         InventoryItem.OnInventoryChanged += OnInventoryChanged;
+        InteractorComponent.OnInteractableObjectPickedUp += OnItemPickedUp;
+        InteractorComponent.OnInteractableObjectDropped += OnItemDropped;
     }
 
     // -----------------.-----------------------
@@ -215,6 +243,8 @@ public class UIHandler : MonoBehaviour
         GameStateManager.OnGameStateChanged -= GameStateChanged;
         InteractorComponent.OnInteractableObjectHovered -= ToggleItemLabel;
         InventoryItem.OnInventoryChanged -= OnInventoryChanged;
+        InteractorComponent.OnInteractableObjectPickedUp -= OnItemPickedUp;
+        InteractorComponent.OnInteractableObjectDropped -= OnItemDropped;
     }
     // --------------------------------------------------
 }
