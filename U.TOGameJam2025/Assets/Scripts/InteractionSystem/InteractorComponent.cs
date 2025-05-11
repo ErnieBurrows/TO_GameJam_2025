@@ -25,6 +25,8 @@ public class InteractorComponent : MonoBehaviour
     private GameObject currentHitObject;
 
     public static event Action<GameObject, bool> OnInteractableObjectHovered;
+    public static event Action<GameObject> OnInteractableObjectPickedUp;
+    public static event Action<GameObject> OnInteractableObjectDropped;
 
     private void Start()
     {
@@ -57,11 +59,12 @@ public class InteractorComponent : MonoBehaviour
     {
         if(inHandObject != null)
         {
-            IUsable usableObject = inHandObject.GetComponent<IUsable>();                  // Get the IUsable component from the inHandItem
+            IUsable usableObject = inHandObject.GetComponent<IUsable>();                    // Get the IUsable component from the inHandItem
 
             if(usableObject != null)
             {
-                usableObject.Use(inHandObject);                                            // Call the Use method on the usable object
+                usableObject.Use(inHandObject);                                             // Call the Use method on the usable object
+                OnInteractableObjectPickedUp?.Invoke(inHandObject);                         // Invoke the event to notify that the object is used
             }
         }
     }
@@ -77,6 +80,7 @@ public class InteractorComponent : MonoBehaviour
             {
                 rb.isKinematic = false;                                                                         // Set it to non-kinematic
                 rb.AddForce(playerCameraTransform.forward * throwForce, ForceMode.Impulse);                     // Add force to the item to "Throw" it
+                OnInteractableObjectDropped?.Invoke(inHandObject);                                              // Invoke the event to notify that the object is dropped
             }
 
             inHandObject = null;                                                                                  // Reset the inHandItem to null  
