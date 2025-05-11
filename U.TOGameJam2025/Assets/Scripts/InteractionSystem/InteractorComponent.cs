@@ -64,7 +64,6 @@ public class InteractorComponent : MonoBehaviour
             if(usableObject != null)
             {
                 usableObject.Use(inHandObject);                                             // Call the Use method on the usable object
-                OnInteractableObjectPickedUp?.Invoke(inHandObject);                         // Invoke the event to notify that the object is used
             }
         }
     }
@@ -107,6 +106,7 @@ public class InteractorComponent : MonoBehaviour
                 if(!interactableObject.KeepWorldPosition)
                     inHandObject.transform.localPosition = Vector3.zero;                                           // Reset the local position of the picked up item
 
+                OnInteractableObjectPickedUp?.Invoke(inHandObject);                         // Invoke the event to notify that the object is used
             }
         }
     }
