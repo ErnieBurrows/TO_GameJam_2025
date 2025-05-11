@@ -7,12 +7,12 @@ public class SellPlatform : MonoBehaviour
     // --------------------------------------------------
     public static SellPlatform Instance;
     // --------------------------------------------------
-    [SerializeField] TextMeshProUGUI _platformLabelTMPro;
+    [SerializeField] List<TextMeshProUGUI> _platformLabelTMPro;
     // --------------------------------------------------
     private List<LootItem> _items = new List<LootItem>();
-    private float _currentValue;
+    private static float _currentValue;
 
-    public float CurrentValue => _currentValue;
+    public static float CurrentValue => _currentValue;
     // --------------------------------------------------
     private void Awake()
     {
@@ -65,7 +65,10 @@ public class SellPlatform : MonoBehaviour
             _currentValue += item.Value;
         }
 
-        _platformLabelTMPro.text = $"Value\n${_currentValue}";
+        foreach (var display in _platformLabelTMPro)
+        {
+            display.text = $"Value\n${_currentValue}";
+        }
 
         Debug.Log("<SellPlatform> Current Value -> " + _currentValue);
     }

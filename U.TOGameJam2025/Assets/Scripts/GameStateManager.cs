@@ -46,6 +46,10 @@ public class GameStateManager : MonoBehaviour
     private static float _moneyReceived;
     private static bool _stopwatchPaused = false;
 
+    public static float MoneyCollected => _moneyCollected;
+    public static float ElapsedTime => _elapsedTime;
+    public static float MoneyReceived => _moneyReceived;
+
     [Header("Game Settings")]
     [SerializeField, Range(0f, 1f)] float _moneyLostPerSeconds = 0.5f;
     
@@ -150,8 +154,10 @@ public class GameStateManager : MonoBehaviour
     {
         StopStopwatch();
 
-        _moneyCollected = SellPlatform.Instance.CurrentValue;
+        _moneyCollected = SellPlatform.CurrentValue;
         _moneyReceived = _moneyCollected - (_elapsedTime * _moneyLostPerSeconds);
+
+        // maybe just load the game result scene on top of the main game scene (to keep player input)
     }
     
     public void StartStopwatch()

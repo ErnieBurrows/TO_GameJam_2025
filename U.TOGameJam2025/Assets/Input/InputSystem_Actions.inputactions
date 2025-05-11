@@ -1055,6 +1055,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "GameResult",
+            "id": "05add980-db08-44e2-a95c-192324cabba1",
+            "actions": [
+                {
+                    "name": "Close",
+                    "type": "Button",
+                    "id": "2ab4b574-e3da-4f33-a13e-0912aad0ff86",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "583ef339-9793-4505-b33a-651fda5a8cff",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cb0204d7-ae87-4439-8332-492eee64bfbc",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Close",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
