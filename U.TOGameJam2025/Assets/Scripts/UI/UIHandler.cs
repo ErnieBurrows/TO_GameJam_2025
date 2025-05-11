@@ -20,12 +20,14 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject _mainHudCanvasPrefab;
     [SerializeField] GameObject _lootbagCanvasPrefab;
     [SerializeField] GameObject _pauseCanvasPrefab;
+    [SerializeField] GameObject _exitCanvasPrefab;
 
     private GameObject _virtualMouseCanvas;
     private GameObject _lootbag;
     private GameObject _mainHudCanvas;
     private GameObject _lootbagCanvas;
     private GameObject _pauseCanvas;
+    private GameObject _exitCanvas;
 
     private RawImage _lootbagTexture;
     private TextMeshProUGUI _itemLabelTMPro;
@@ -86,6 +88,10 @@ public class UIHandler : MonoBehaviour
         _pauseCanvas = Instantiate(_pauseCanvasPrefab,transform);
         _pauseCanvas.SetActive(false);
 
+        // Exit
+        _exitCanvas = Instantiate(_exitCanvasPrefab, transform);
+        _exitCanvas.SetActive(false);
+
         // Get Item Label TMPro
         _itemLabelTMPro = _mainHudCanvas.transform.Find("ItemText").GetComponent<TextMeshProUGUI>();
 
@@ -115,6 +121,7 @@ public class UIHandler : MonoBehaviour
         _mainHudCanvas.SetActive(false);
         _lootbagCanvas.SetActive(false);
         _pauseCanvas.SetActive(false);
+        _exitCanvas.SetActive(false);
 
         switch (state)
         {
@@ -135,6 +142,12 @@ public class UIHandler : MonoBehaviour
                 _currentState = UIStates.GAME_PAUSED;
                 VirtualMouse(true);
                 _pauseCanvas.SetActive(true);
+                break;
+            case UIStates.EXIT:
+                Debug.Log("<UIHandler> Switched to Exit.");
+                _currentState = UIStates.EXIT;
+                VirtualMouse(true);
+                _exitCanvas.SetActive(true);
                 break;
         }
     }
@@ -178,6 +191,9 @@ public class UIHandler : MonoBehaviour
                 break;
             case GameStateManager.GameState.PAUSED:
                 SwitchState(UIStates.GAME_PAUSED);
+                break;
+            case GameStateManager.GameState.EXITING:
+                SwitchState(UIStates.EXIT);
                 break;
         }
     }

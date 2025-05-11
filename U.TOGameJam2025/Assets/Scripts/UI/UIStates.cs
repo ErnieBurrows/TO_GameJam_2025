@@ -7,4 +7,5 @@ public enum UIStates
     MAIN_MENU,
     SETTINGS,
     GAME_PAUSED,
+    EXIT
 }

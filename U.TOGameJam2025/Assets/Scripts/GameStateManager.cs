@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR;
 
 public class GameStateManager : MonoBehaviour
@@ -85,6 +87,8 @@ public class GameStateManager : MonoBehaviour
         unPauseAction.Enable();
         lootBagOpenAction.Enable();
         lootBagCloseAction.Enable();
+
+        ExitPlatform.OnExitPlatform += PlayerExiting;
     }
 
     void OnDisable()
@@ -98,6 +102,8 @@ public class GameStateManager : MonoBehaviour
         unPauseAction.Disable();
         lootBagOpenAction.Disable();
         lootBagCloseAction.Disable();
+
+        ExitPlatform.OnExitPlatform -= PlayerExiting;
     }
 
     private void TogglePause(bool isPausing)
@@ -135,6 +141,10 @@ public class GameStateManager : MonoBehaviour
                 playerInput.SwitchCurrentActionMap("UI");
                 currentGameState = GameState.LOOTBAG;
                 break;
+            case GameState.EXITING:
+                playerInput.SwitchCurrentActionMap("UI");
+                currentGameState = GameState.EXITING;
+                break;
 
             default:
                 throw new ArgumentOutOfRangeException(nameof(stateToSwapTo), stateToSwapTo, null);
@@ -150,14 +160,14 @@ public class GameStateManager : MonoBehaviour
         StartStopwatch();
     }
 
-    private void GameEnd()
+    public void GameEnd()
     {
         StopStopwatch();
 
         _moneyCollected = SellPlatform.CurrentValue;
         _moneyReceived = _moneyCollected - (_elapsedTime * _moneyLostPerSeconds);
 
-        // maybe just load the game result scene on top of the main game scene (to keep player input)
+        SceneManager.LoadScene("GameEnd");
     }
     
     public void StartStopwatch()
@@ -190,10 +200,23 @@ public class GameStateManager : MonoBehaviour
 
         StartCoroutine(StopwatchCoroutine());
     }
+
+    private void PlayerExiting(bool isExiting)
+    {
+        if (isExiting)
+        {
+            HandleGameState(GameState.EXITING);
+        }
+        else
+        {
+            HandleGameState(GameState.INGAME);
+        }
+    }
     
     public enum GameState{
         INGAME,
         PAUSED,
-        LOOTBAG
+        LOOTBAG,
+        EXITING
     };
 }

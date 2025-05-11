@@ -1,14 +1,11 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseUIController : MonoBehaviour
 {
-    public void OnContinueClicked()
-    {
-        Debug.Log("<PauseCanvas> Continue clicked.");
-    }
-
     public void OnLeaveClicked()
     {
         Debug.Log("<PauseCanvas> Leave clicked.");
+        SceneManager.LoadScene("MainMenu");
     }
 }

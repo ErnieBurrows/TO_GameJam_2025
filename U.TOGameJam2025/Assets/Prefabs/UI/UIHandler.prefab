@@ -49,3 +49,4 @@ MonoBehaviour:
   _mainHudCanvasPrefab: {fileID: 412739117516409475, guid: 36cd079cb27ab1943b8a06dc7af07478, type: 3}
   _lootbagCanvasPrefab: {fileID: 2868404060493677733, guid: 322c4288966424144924f3a4c1b9ff73, type: 3}
   _pauseCanvasPrefab: {fileID: 2166178160485906461, guid: c6c4d4a83622f8d47a3c66a6283db922, type: 3}
+  _exitCanvasPrefab: {fileID: 2227301650873116267, guid: 65b97c54ff5a4c8428b9f01a947bfacc, type: 3}

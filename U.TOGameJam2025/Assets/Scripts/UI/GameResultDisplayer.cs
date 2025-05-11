@@ -16,14 +16,14 @@ public class GameResultDisplayer : MonoBehaviour
     // --------------------------------------------------
     private void Start()
     {
-        _moneyCollectedTMPro.text = $"Money Collected -> ${GameStateManager.MoneyCollected}";
+        _moneyCollectedTMPro.text = $"Money Collected -> ${GameStateManager.MoneyCollected:0.00}";
 
         float elapsedTime = GameStateManager.ElapsedTime;
         int minute = Mathf.FloorToInt(elapsedTime / 60f);
         int second = Mathf.FloorToInt(elapsedTime % 60f);
         _elapsedTimeTMPro.text = $"Elapsed Time -> {minute:00}:{second:00}";
 
-        _moneyYouReceiveTMPro.text = $"Money You Receive -> ${GameStateManager.MoneyReceived}";
+        _moneyYouReceiveTMPro.text = $"Money You Receive -> ${GameStateManager.MoneyReceived:0.00}";
     }
     // --------------------------------------------------
     private void Close()
