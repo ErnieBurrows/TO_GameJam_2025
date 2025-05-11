@@ -72,21 +72,27 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     private void Setup()
     {
+        Debug.Log("<UIHandler> Setting up.");
+
         // Virtual Mouse
+        Debug.Log("<UIHandler> Virtual Mouse.");
         _virtualMouseCanvas = Instantiate(_virtualMouseCanvasPrefab, transform);
         _virtualCursor = _virtualMouseCanvas.transform.Find("VirtualMouseHandler") as RectTransform;
         _defaultVirtualMousePos = _virtualCursor.anchoredPosition;
         VirtualMouse(false);
 
         // Lootbag System
+        Debug.Log("<UIHandler> Lootbag System.");
         _lootbag = Instantiate(_lootbagPrefab, transform);
         LootbagSystem(false);
 
         // Main HUD
+        Debug.Log("<UIHandler> Main HUD.");
         _mainHudCanvas = Instantiate(_mainHudCanvasPrefab,transform);
         _mainHudCanvas.SetActive(false);
 
         // Lootbag View
+        Debug.Log("<UIHandler> Lootbag Canvas.");
         _lootbagCanvas = Instantiate(_lootbagCanvasPrefab,transform);
         _lootbagTexture = _lootbagCanvas.transform.Find("LootbagTexture").GetComponent<RawImage>();
         _lootbagCanvas.SetActive(false);
@@ -107,6 +113,7 @@ public class UIHandler : MonoBehaviour
     // --------------------------------------------------
     public void GameStart()
     {
+        Debug.Log("<UIHandler> Game Start.");
         LootbagSystem(true);
         SwitchState(UIStates.MAIN_HUD);
     }
@@ -120,10 +127,12 @@ public class UIHandler : MonoBehaviour
         switch (state)
         {
             case UIStates.MAIN_HUD:
+                Debug.Log("<UIHandler> Switched to Main HUD.");
                 VirtualMouse(false);
                 _mainHudCanvas.SetActive(true);
                 break;
             case UIStates.LOOTBAG:
+                Debug.Log("<UIHandler> Switched to Lootbag.");
                 VirtualMouse(true);
                 _lootbagCanvas.SetActive(true);
                 break;
@@ -134,6 +143,10 @@ public class UIHandler : MonoBehaviour
     {
         _isVirtualMouseEnabled = value;
         _virtualMouseCanvas.SetActive(value);
+
+        GameObject virtualMouseImage = _virtualCursor.transform.Find("Cursor").gameObject;
+        virtualMouseImage.SetActive(_isVirtualMouseEnabled);
+
         // VirtualMouseInput virtualMouse = _virtualMouseCanvas.transform.Find("VirtualMouseHandler").GetComponent<VirtualMouseInput>();
         // 
         // virtualMouse.enabled = _isVirtualMouseEnabled;
