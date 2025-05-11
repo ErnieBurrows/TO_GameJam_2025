@@ -139,6 +139,15 @@ public class UIHandler : MonoBehaviour
         GameObject virtualMouseImage = _virtualCursor.transform.Find("Cursor").gameObject;
         virtualMouseImage.SetActive(_isVirtualMouseEnabled);
 
+        if (_isVirtualMouseEnabled)
+        {
+            var currentPos = Mouse.current.position.ReadValue();
+            var newPos = currentPos + new Vector2(0.1f, 0f); // tiny nudge
+
+            InputSystem.QueueDeltaStateEvent(Mouse.current.position, newPos);
+            // InputSystem.Update(); // apply the state
+        }
+
         // VirtualMouseInput virtualMouse = _virtualMouseCanvas.transform.Find("VirtualMouseHandler").GetComponent<VirtualMouseInput>();
         // 
         // virtualMouse.enabled = _isVirtualMouseEnabled;
