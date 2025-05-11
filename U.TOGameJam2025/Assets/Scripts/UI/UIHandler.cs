@@ -139,6 +139,15 @@ public class UIHandler : MonoBehaviour
         GameObject virtualMouseImage = _virtualCursor.transform.Find("Cursor").gameObject;
         virtualMouseImage.SetActive(_isVirtualMouseEnabled);
 
+        if (_isVirtualMouseEnabled)
+        {
+            var currentPos = Mouse.current.position.ReadValue();
+            var newPos = currentPos + new Vector2(0.1f, 0f); // tiny nudge
+
+            InputSystem.QueueDeltaStateEvent(Mouse.current.position, newPos);
+            // InputSystem.Update(); // apply the state
+        }
+
         // VirtualMouseInput virtualMouse = _virtualMouseCanvas.transform.Find("VirtualMouseHandler").GetComponent<VirtualMouseInput>();
         // 
         // virtualMouse.enabled = _isVirtualMouseEnabled;
@@ -184,9 +193,11 @@ public class UIHandler : MonoBehaviour
     private void OnInventoryChanged()
     {
         float currentMoney = PlayerInventory.Instance.currentMoney;
-        _lootbagLabelTMPro.text = $"?/?\n<color=#ffff00>${currentMoney}</color>";
+        float currentWeight = PlayerInventory.Instance.currentWeight;
+        float maxWeight = PlayerInventory.Instance.maxWeight;
+        _lootbagLabelTMPro.text = $"{currentWeight}/{maxWeight} lbs\n<color=#ffff00>${currentMoney}</color>";
 
-        _droppingLootbagLabelTMPro.text = $"?/? - <color=#ffff00>${currentMoney}</color>";
+        _droppingLootbagLabelTMPro.text = $"{currentWeight}/{maxWeight} lbs - <color=#ffff00>${currentMoney}</color>";
     }
     // --------------------------------------------------
     private void OnEnable()

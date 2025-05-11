@@ -523,7 +523,7 @@
                 {
                     "name": "",
                     "id": "d9a7b888-121a-49a3-83b0-c694045466b7",
-                    "path": "<Gamepad>/buttonEast",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -545,7 +545,7 @@
                 {
                     "name": "",
                     "id": "1f915393-27c8-47f6-b7b8-95740f5eb6e0",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -1013,6 +1013,17 @@
                 {
                     "name": "",
                     "id": "e9fdb0b8-6637-4799-960b-34fea0486555",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UnPause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7c383632-b6ea-4713-8fd8-70316059a714",
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
