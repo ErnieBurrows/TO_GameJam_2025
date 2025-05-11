@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR;
@@ -38,6 +39,17 @@ public class GameStateManager : MonoBehaviour
     private InputAction lootBagCloseAction;
     private GameState currentGameState;
 
+    public static event Action<float> OnStopwatchTicked;
+
+    private static float _moneyCollected;
+    private static float _elapsedTime;
+    private static float _moneyReceived;
+    private static bool _stopwatchPaused = false;
+
+    [Header("Game Settings")]
+    [SerializeField, Range(0f, 1f)] float _moneyLostPerSeconds = 0.5f;
+    
+
     void Awake()
     {
         playerInput = FindFirstObjectByType<PlayerInput>();
@@ -54,7 +66,7 @@ public class GameStateManager : MonoBehaviour
         currentGameState = GameState.INGAME;
         playerInput.SwitchCurrentActionMap("Player");
 
-        OnGameStateManagerInitialized?.Invoke();
+        GameStart();
     }
 
     void OnEnable()
@@ -106,11 +118,13 @@ public class GameStateManager : MonoBehaviour
             case GameState.INGAME:
                 playerInput.SwitchCurrentActionMap("Player");
                 currentGameState = GameState.INGAME;
+                ContinueStopwatch();
                 break;
 
             case GameState.PAUSED:
                 playerInput.SwitchCurrentActionMap("UI");
                 currentGameState = GameState.PAUSED;
+                PauseStopwatch();
                 break;
 
             case GameState.LOOTBAG:
@@ -125,10 +139,50 @@ public class GameStateManager : MonoBehaviour
         OnGameStateChanged?.Invoke(stateToSwapTo);
     }
 
+    private void GameStart()
+    {
+        OnGameStateManagerInitialized?.Invoke();
+
+        StartStopwatch();
+    }
+
     private void GameEnd()
     {
-        float currentMoney = PlayerInventory.Instance.currentMoney;
-        float currentWeight = PlayerInventory.Instance.currentWeight;
+        StopStopwatch();
+
+        _moneyCollected = SellPlatform.Instance.CurrentValue;
+        _moneyReceived = _moneyCollected - (_elapsedTime * _moneyLostPerSeconds);
+    }
+    
+    public void StartStopwatch()
+    {
+        _elapsedTime = 0f;
+        StartCoroutine(StopwatchCoroutine());
+    }
+
+    public void StopStopwatch()
+    {
+        StopCoroutine(StopwatchCoroutine());
+    }
+
+    public void PauseStopwatch()
+    {
+        _stopwatchPaused = true;
+    }
+
+    public void ContinueStopwatch()
+    {
+        _stopwatchPaused = false;
+    }
+
+    private IEnumerator StopwatchCoroutine()
+    {
+        yield return new WaitUntil(() => !_stopwatchPaused); // Stop when stopwatch is paused
+
+        _elapsedTime += Time.deltaTime;
+        OnStopwatchTicked?.Invoke(_elapsedTime);
+
+        StartCoroutine(StopwatchCoroutine());
     }
     
     public enum GameState{

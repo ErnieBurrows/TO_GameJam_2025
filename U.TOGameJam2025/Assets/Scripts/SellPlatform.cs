@@ -11,6 +11,8 @@ public class SellPlatform : MonoBehaviour
     // --------------------------------------------------
     private List<LootItem> _items = new List<LootItem>();
     private float _currentValue;
+
+    public float CurrentValue => _currentValue;
     // --------------------------------------------------
     private void Awake()
     {
