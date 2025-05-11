@@ -30,115 +30,87 @@ public class LootSpawnManager : MonoBehaviour
         GameStateManager.OnGameStateManagerInitialized += SpawnLootFromBias;
     }
 
-    // private void SpawnLootFromBias()
-    // {
-    //     currentLootSpawnPrice = 0;
-
-    //     List<(List<GameObject> prefabs, List<Transform> spawnPoints)> lootCategories = new()
-    //     {
-    //         (largeLootPrefabs, largeLootSpawnPoints),
-    //         (mediumLootPrefabs, mediumLootSpawnPoints),   
-    //         (smallLootPrefabs, smallLootSpawnPoints)
-    //     };
-
-
-    //     // Bias influences the starting index (0 = large, 1 = medium, 2 = small)
-    //     int startIndex = Mathf.Clamp(Mathf.RoundToInt(100f - smallToLargeLootBias) / 50, 0, lootCategories.Count - 1);
-
-    //     for (int i = startIndex; i <lootCategories.Count; i++)
-    //     {
-    //         TrySpawnFromCategory(lootCategories[i].prefabs, lootCategories[i].spawnPoints);
-
-    //         if (currentLootSpawnPrice >= totalLootSpawnPrice) break;
-            
-    //     }
-    // }
-
-    private void SpawnLootFromBias()
-{
-    currentLootSpawnPrice = 0f;
-
-    // Define weights based on bias (0 = small-heavy, 100 = large-heavy)
-    float smallWeight = Mathf.Clamp01((100f - smallToLargeLootBias) / 100f);
-    float largeWeight = Mathf.Clamp01(smallToLargeLootBias / 100f);
-    float mediumWeight = 1f; // Always normalized later
-
-    // Normalize weights so they sum to 1
-    float totalWeight = smallWeight + mediumWeight + largeWeight;
-    smallWeight /= totalWeight;
-    mediumWeight /= totalWeight;
-    largeWeight /= totalWeight;
-
-    while (currentLootSpawnPrice < totalLootSpawnPrice)
+    void OnDisable()
     {
-        float rand = UnityEngine.Random.value;
-
-        // Decide which category to spawn from based on weights
-        if (rand < smallWeight)
-        {
-            TrySpawnFromCategory(smallLootPrefabs, smallLootSpawnPoints);
-        }
-        else if (rand < smallWeight + mediumWeight)
-        {
-            TrySpawnFromCategory(mediumLootPrefabs, mediumLootSpawnPoints);
-        }
-        else
-        {
-            TrySpawnFromCategory(largeLootPrefabs, largeLootSpawnPoints);
-        }
+        GameStateManager.OnGameStateManagerInitialized -= SpawnLootFromBias;
     }
-}
 
-    private void TrySpawnFromCategory(List<GameObject> prefabs, List<Transform> spawnPoints)
+   private void SpawnLootFromBias()
     {
-        List<Transform> availableSpawnPoints = new List<Transform>(spawnPoints);
+        currentLootSpawnPrice = 0f;
 
-        while(availableSpawnPoints.Count > 0 && currentLootSpawnPrice < totalLootSpawnPrice)
+        float smallWeight = Mathf.Clamp01((100f - smallToLargeLootBias) / 100f);
+        float largeWeight = Mathf.Clamp01(smallToLargeLootBias / 100f);
+        float mediumWeight = 1f;
+
+        float totalWeight = smallWeight + mediumWeight + largeWeight;
+        smallWeight /= totalWeight;
+        mediumWeight /= totalWeight;
+        largeWeight /= totalWeight;
+
+        const int maxAttempts = 100; // Prevent infinite loops
+
+        for (int i = 0; i < maxAttempts && currentLootSpawnPrice <= totalLootSpawnPrice; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, prefabs.Count);
-            GameObject candidatePrefab = prefabs[randomIndex];
+            float rand = UnityEngine.Random.value;
 
-            if(!candidatePrefab.TryGetComponent(out LootItem lootItem))
+            if (rand < smallWeight)
             {
-                Debug.LogError($"Prefab {candidatePrefab.name} does not have a LootItem component.");
-                continue;
-            }   
-
-            if (currentLootSpawnPrice + lootItem.Value > totalLootSpawnPrice)
-            {
-                // Try a cheaper item if this one's too expensive
-                if (!TryFindAffordableItem(prefabs, out candidatePrefab, totalLootSpawnPrice - currentLootSpawnPrice))
-                    break;
-
-                lootItem = candidatePrefab.GetComponent<LootItem>();
+                if (!TrySpawnFromCategory(smallLootPrefabs, smallLootSpawnPoints)) continue;
             }
-
-            int spawnIndex = UnityEngine.Random.Range(0, availableSpawnPoints.Count);
-            Transform spawnPoint = availableSpawnPoints[spawnIndex];
-            availableSpawnPoints.RemoveAt(spawnIndex);
-
-            Instantiate(candidatePrefab, spawnPoint.position, Quaternion.identity, lootParentTransform);
-
-            currentLootSpawnPrice += lootItem.Value;
+            else if (rand < smallWeight + mediumWeight)
+            {
+                if (!TrySpawnFromCategory(mediumLootPrefabs, mediumLootSpawnPoints)) continue;
+            }
+            else
+            {
+                if (!TrySpawnFromCategory(largeLootPrefabs, largeLootSpawnPoints)) continue;
+            }
         }
     }
+    
 
-    private bool TryFindAffordableItem(List<GameObject> lootPrefabs, out GameObject result, float maxPrice)
+    private bool TrySpawnFromCategory(List<GameObject> prefabs, List<Transform> spawnPoints)
     {
-        List<GameObject> affordable = lootPrefabs.FindAll(obj =>
-        {
-            if (obj.TryGetComponent(out LootItem item))
-                return item.Value <= maxPrice;
+        if (spawnPoints.Count == 0 || prefabs.Count == 0)
             return false;
-        });
 
-        if (affordable.Count > 0)
+        GameObject candidatePrefab = prefabs[UnityEngine.Random.Range(0, prefabs.Count)];
+
+        if (!candidatePrefab.TryGetComponent(out LootItem lootItem))
         {
-            result = affordable[UnityEngine.Random.Range(0, affordable.Count)];
-            return true;
+            Debug.LogError($"Prefab {candidatePrefab.name} does not have a LootItem component.");
+            return false;
         }
 
-        result = null;
+        // Too expensive
+        if (currentLootSpawnPrice + lootItem.Value > totalLootSpawnPrice)
+        {
+            if (!TryFindAffordableItem(prefabs, out candidatePrefab, totalLootSpawnPrice - currentLootSpawnPrice))
+                return false;
+
+            lootItem = candidatePrefab.GetComponent<LootItem>();
+        }
+
+        Transform spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Count)];
+        Instantiate(candidatePrefab, spawnPoint.position, Quaternion.identity, lootParentTransform);
+
+        currentLootSpawnPrice += lootItem.Value;
+        return true;
+    }
+
+    private bool TryFindAffordableItem(List<GameObject> prefabs, out GameObject affordablePrefab, float maxPrice)
+    {
+        foreach (var prefab in prefabs)
+        {
+            if (prefab.TryGetComponent(out LootItem lootItem) && lootItem.Value <= maxPrice)
+            {
+                affordablePrefab = prefab;
+                return true;
+            }
+        }
+
+        affordablePrefab = null;
         return false;
     }
 }
