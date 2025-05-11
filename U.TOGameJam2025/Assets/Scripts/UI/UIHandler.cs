@@ -19,12 +19,14 @@ public class UIHandler : MonoBehaviour
     [SerializeField] GameObject _lootbagPrefab;
     [SerializeField] GameObject _mainHudCanvasPrefab;
     [SerializeField] GameObject _lootbagCanvasPrefab;
-    [SerializeField] InputActionAsset _inputActionAsset;
+    [SerializeField] GameObject _pauseCanvasPrefab;
 
     private GameObject _virtualMouseCanvas;
     private GameObject _lootbag;
     private GameObject _mainHudCanvas;
     private GameObject _lootbagCanvas;
+    private GameObject _pauseCanvas;
+
     private RawImage _lootbagTexture;
     private TextMeshProUGUI _itemLabelTMPro;
     private TextMeshProUGUI _lootbagLabelTMPro;
@@ -48,26 +50,6 @@ public class UIHandler : MonoBehaviour
             Destroy(gameObject);
 
         Instance = this;
-    }
-    // --------------------------------------------------
-    private void Start()
-    {
-        var virtualMouse = InputSystem.GetDevice<Mouse>("VirtualMouse");
-        if (virtualMouse == null)
-        {
-            virtualMouse = (Mouse)InputSystem.AddDevice("Mouse");
-        }
-
-        InputUser user = InputUser.CreateUserWithoutPairedDevices();
-        InputUser.PerformPairingWithDevice(virtualMouse, user);
-        user.AssociateActionsWithUser(_inputActionAsset);
-
-        InputSystem.QueueStateEvent(virtualMouse, new MouseState
-        {
-            position = new Vector2(Screen.width / 2, Screen.height / 2)
-        });
-
-        InputSystem.Update();
     }
     // --------------------------------------------------
     private void Setup()
@@ -97,6 +79,10 @@ public class UIHandler : MonoBehaviour
         _lootbagTexture = _lootbagCanvas.transform.Find("LootbagTexture").GetComponent<RawImage>();
         _lootbagCanvas.SetActive(false);
 
+        // Pause
+        _pauseCanvas = Instantiate(_pauseCanvasPrefab,transform);
+        _pauseCanvas.SetActive(false);
+
         // Get Item Label TMPro
         _itemLabelTMPro = _mainHudCanvas.transform.Find("ItemText").GetComponent<TextMeshProUGUI>();
 
@@ -123,6 +109,7 @@ public class UIHandler : MonoBehaviour
         // Disable all first
         _mainHudCanvas.SetActive(false);
         _lootbagCanvas.SetActive(false);
+        _pauseCanvas.SetActive(false);
 
         switch (state)
         {
@@ -135,6 +122,11 @@ public class UIHandler : MonoBehaviour
                 Debug.Log("<UIHandler> Switched to Lootbag.");
                 VirtualMouse(true);
                 _lootbagCanvas.SetActive(true);
+                break;
+            case UIStates.GAME_PAUSED:
+                Debug.Log("<UIHandler> Switched to Paused.");
+                VirtualMouse(true);
+                _pauseCanvas.SetActive(true);
                 break;
         }
     }
@@ -166,6 +158,9 @@ public class UIHandler : MonoBehaviour
                 break;
             case GameStateManager.GameState.INGAME:
                 SwitchState(UIStates.MAIN_HUD);
+                break;
+            case GameStateManager.GameState.PAUSED:
+                SwitchState(UIStates.GAME_PAUSED);
                 break;
         }
     }

@@ -5,4 +5,5 @@ public enum UIStates
     SELL_THE_LOOT,
     MAIN_MENU,
     SETTINGS,
+    GAME_PAUSED
 }
